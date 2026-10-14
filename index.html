@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rihas | Top 1% Python Data Analyst Mastery OS (Indian Interview Edition)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            py: {
+              blue: '#38BDF8',
+              yellow: '#FACC15',
+              emerald: '#10B981',
+              dark: '#070A12',
+              card: '#0F1629',
+              border: '#1E293B'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #070A12;
+      color: #F1F5F9;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #070A12;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .glass-panel {
+      background: rgba(15, 22, 41, 0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .custom-checkbox:checked + span {
+      text-decoration: line-through;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-py-yellow selection:text-black">
+
+  <!-- Sticky Top Header -->
+  <header class="sticky top-0 z-50 glass-panel border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-sky-400 via-blue-600 to-amber-400 flex items-center justify-center shadow-lg shadow-sky-500/20 text-black font-extrabold text-base font-mono">
+          PY
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-bold text-lg sm:text-xl tracking-tight text-white">Top 1% Python Data Analyst OS</h1>
+            <span class="hidden md:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-400/10 text-py-yellow border border-amber-400/30">
+              🇮🇳 Indian Interview Edition
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">Rihas Ahamed Habeeb • Pandas 2.0 • NumPy • SciPy • SQLAlchemy • BI Automation</p>
+        </div>
+      </div>
+
+      <!-- Focus Timer & Overall Progress -->
+      <div class="flex items-center gap-5">
+        <div class="hidden lg:flex items-center gap-2 bg-slate-900/90 border border-slate-800 px-3.5 py-1.5 rounded-xl">
+          <div class="w-2 h-2 rounded-full bg-py-yellow animate-pulse"></div>
+          <span class="font-mono text-sm font-semibold text-slate-200" id="timer-display">45:00</span>
+          <button onclick="toggleTimer()" id="timer-btn" class="text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-py-yellow font-medium transition">Start 45m Drill</button>
+          <button onclick="resetTimer()" class="text-xs text-slate-500 hover:text-slate-300 px-1">↺</button>
+        </div>
+
+        <div class="w-40 sm:w-56">
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-slate-400 font-medium">Top 1% Mastery</span>
+            <span class="text-py-yellow font-mono font-bold" id="global-progress-text">0%</span>
+          </div>
+          <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700">
+            <div id="global-progress-bar" class="h-full bg-gradient-to-r from-sky-400 to-py-yellow rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <button onclick="openDataModal()" title="Backup or Reset Progress" class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-medium">
+          ⚙️ Data
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto border-t border-slate-800/80 no-scrollbar">
+      <button onclick="switchTab('syllabus')" id="tab-syllabus" class="nav-tab px-5 py-3 text-sm font-semibold border-b-2 border-py-yellow text-py-yellow whitespace-nowrap flex items-center gap-2">
+        <span>📚 10-Module Top 1% Syllabus</span>
+      </button>
+      <button onclick="switchTab('arena')" id="tab-arena" class="nav-tab px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-2">
+        <span>⚔️ Pandas & Python Coding Arena (12 Live Problems)</span>
+      </button>
+      <button onclick="switchTab('vault')" id="tab-vault" class="nav-tab px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-2">
+        <span>⚡ ETL, SQLAlchemy & Power BI API Vault</span>
+      </button>
+      <button onclick="switchTab('scorecard')" id="tab-scorecard" class="nav-tab px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-2">
+        <span>🎯 Top 1% Scorecard (<span id="scorecard-badge">0/10</span>)</span>
+      </button>
+      <button onclick="switchTab('roadmap')" id="tab-roadmap" class="nav-tab px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-2">
+        <span>🗓️ 4-Week Execution & Company Tiers</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- ==================== TAB 1: 10-MODULE SYLLABUS ==================== -->
+    <section id="view-syllabus" class="space-y-8">
+      <!-- Hero Banner -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 glass-panel rounded-2xl p-6 border border-slate-800 relative overflow-hidden">
+          <div class="absolute -right-10 -top-10 w-44 h-44 bg-sky-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-sky-500/20 text-sky-300">10 Modules • Vectorized First</span>
+            <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-amber-400/20 text-py-yellow">GST Recon • UPI • Indian FY • Regex Cleaning</span>
+            <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-500/20 text-emerald-300">Pandas 2.0 + NumPy + SQLAlchemy</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white mb-2">How the Top 1% Stand Out in Indian Python Data Analyst Interviews</h2>
+          <p class="text-sm text-slate-300 leading-relaxed mb-4">
+            Average candidates write slow <code class="text-py-yellow">for</code> loops, use <code class="text-py-yellow">.iterrows()</code>, get stuck on <code class="text-py-yellow">SettingWithCopyWarning</code>, and forget how <code class="text-py-yellow">groupby().transform()</code> works. Top 1% analysts write <strong>100% vectorized NumPy/Pandas chains</strong>, use <code class="text-py-yellow">np.select()</code> for multi-condition logic, clean messy <strong>Indian GSTIN/PAN/Date strings with Regex</strong>, process 10GB+ files with <strong>PyArrow/Categoricals</strong>, and automate <strong>SQL/Redshift → Python → Power BI REST API</strong> pipelines.
+          </p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+              <div class="text-xs text-slate-400">Python/Pandas Concepts</div>
+              <div class="text-lg font-bold text-white font-mono mt-0.5" id="stat-concepts">0 / 0</div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+              <div class="text-xs text-slate-400">Indian Scenarios</div>
+              <div class="text-lg font-bold text-emerald-400 font-mono mt-0.5" id="stat-scenarios">0 / 0</div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+              <div class="text-xs text-slate-400">Arena Solved</div>
+              <div class="text-lg font-bold text-py-yellow font-mono mt-0.5" id="stat-arena">0 / 12</div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+              <div class="text-xs text-slate-400">Mastery Gates</div>
+              <div class="text-lg font-bold text-sky-400 font-mono mt-0.5" id="stat-gates">0 / 10</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Golden Rules Card -->
+        <div class="glass-panel rounded-2xl p-6 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-sm font-bold uppercase tracking-wider text-py-yellow">5 Golden Rules for Live Coding</h3>
+              <span class="text-xs text-slate-400">Top 1% Standard</span>
+            </div>
+            <ol class="space-y-2.5 text-xs sm:text-sm">
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-slate-800 text-py-yellow text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                <span class="text-slate-300"><strong class="text-white">Ban <code class="text-py-yellow">iterrows()</code> & <code class="text-py-yellow">apply(axis=1)</code>:</strong> Always reach for vectorized <code class="text-sky-300">np.where()</code>, <code class="text-sky-300">np.select()</code>, or boolean masks first (50x–500x faster).</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-slate-800 text-py-yellow text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                <span class="text-slate-300"><strong class="text-white">Master <code class="text-py-yellow">groupby().transform()</code>:</strong> Whenever an interviewer asks for "row value divided by group total" (like SQL <code class="text-sky-300">SUM() OVER (PARTITION BY)</code>), use <code class="text-sky-300">.transform('sum')</code>.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-slate-800 text-py-yellow text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                <span class="text-slate-300"><strong class="text-white">Validate Joins with <code class="text-py-yellow">validate=</code>:</strong> Pass <code class="text-sky-300">validate='m:1'</code> and <code class="text-sky-300">indicator=True</code> inside <code class="text-sky-300">pd.merge()</code> to catch unexpected duplicate key explosions.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-slate-800 text-py-yellow text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</span>
+                <span class="text-slate-300"><strong class="text-white">Bitwise Operators & Parentheses:</strong> In Pandas masks, always wrap conditions in parentheses with <code class="text-sky-300">&amp;</code>, <code class="text-sky-300">|</code>, <code class="text-sky-300">~</code>—never Python's <code class="text-red-400">and</code>/<code class="text-red-400">or</code>.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-slate-800 text-py-yellow text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</span>
+                <span class="text-slate-300"><strong class="text-white">State Memory Impact:</strong> Mention downcasting <code class="text-sky-300">object</code> columns to <code class="text-sky-300">category</code> or <code class="text-sky-300">string[pyarrow]</code> on 10M+ row datasets.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase Filter & Search Bar -->
+      <div class="flex flex-col sm:flex-row gap-4 items-center justify-between glass-panel p-4 rounded-xl border border-slate-800">
+        <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+          <button onclick="filterPhase('all')" id="phase-btn-all" class="phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-py-yellow text-black transition">All 10 Modules</button>
+          <button onclick="filterPhase(1)" id="phase-btn-1" class="phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Phase 1: Core Python & NumPy (M1–M3)</button>
+          <button onclick="filterPhase(2)" id="phase-btn-2" class="phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Phase 2: Pandas 2.0 & Wrangling (M4–M6)</button>
+          <button onclick="filterPhase(3)" id="phase-btn-3" class="phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Phase 3: Stats, Outliers & Big Data (M7–M8)</button>
+          <button onclick="filterPhase(4)" id="phase-btn-4" class="phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Phase 4: ETL, SQL & BI Automation (M9–M10)</button>
+        </div>
+        <div class="relative w-full sm:w-72">
+          <input type="text" id="module-search" oninput="renderSyllabus()" placeholder="Search topic (e.g. transform, GST, chunksize)..." class="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-py-yellow">
+          <span class="absolute left-3 top-2.5 text-slate-500 text-xs">🔍</span>
+        </div>
+      </div>
+
+      <!-- Modules Container -->
+      <div id="syllabus-container" class="space-y-6"></div>
+    </section>
+
+    <!-- ==================== TAB 2: PYTHON & PANDAS CODING ARENA ==================== -->
+    <section id="view-arena" class="hidden space-y-6">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-py-yellow">Hands-On Live Coding Simulator</span>
+          <h2 class="text-xl font-bold text-white mt-1">⚔️ 12 Real Indian Python & Pandas Interview Problems</h2>
+          <p class="text-sm text-slate-400 mt-1">Select a scenario below, review the sample DataFrame & edge cases, write your vectorized Python/Pandas solution in the scratchpad (auto-saved), and compare it against the Top 1% solution.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left 4 Columns: Problem List -->
+        <div class="lg:col-span-4 space-y-2.5 max-h-[760px] overflow-y-auto pr-1" id="arena-list-container">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Right 8 Columns: Active Problem Workspace -->
+        <div class="lg:col-span-8" id="arena-workspace-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: PRODUCTION ETL & BI AUTOMATION VAULT ==================== -->
+    <section id="view-vault" class="hidden space-y-6">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <h2 class="text-xl font-bold text-white mb-1">⚡ Production Python ETL, SQLAlchemy & Power BI Automation Vault</h2>
+        <p class="text-sm text-slate-400">Copy-ready automation templates that directly connect your Python skills to SQL Server / Redshift, Excel reporting, and Power BI Service REST APIs.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="vault-container">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: TOP 1% SCORECARD (0/10) ==================== -->
+    <section id="view-scorecard" class="hidden space-y-6">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Final Quality Gate</span>
+          <h2 class="text-2xl font-bold text-white mt-1">Top 1% Python Data Analyst Readiness Scorecard</h2>
+          <p class="text-sm text-slate-400 mt-1">Only toggle a pillar when you can write the vectorized Python/Pandas code live on a shared screen without looking up syntax or falling back to slow loops.</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 px-6 py-4 rounded-2xl flex items-center gap-4 shrink-0">
+          <div class="text-right">
+            <div class="text-xs text-slate-400 uppercase font-semibold">Readiness Gate</div>
+            <div class="text-3xl font-extrabold text-py-yellow font-mono" id="scorecard-big-number">0 / 10</div>
+          </div>
+          <div id="scorecard-status-pill" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+            In Progress
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="scorecard-grid">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: 4-WEEK ROADMAP & COMPANY TIERS ==================== -->
+    <section id="view-roadmap" class="hidden space-y-8">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+          <div>
+            <h2 class="text-xl font-bold text-white">🗓️ 4-Week Python for Data Analysts Execution Plan (1–1.5 Hours/Day)</h2>
+            <p class="text-sm text-slate-400">Structured so you master Core Python → Vectorized NumPy/Pandas → Indian Business Scenarios → Production ETL & BI Automation.</p>
+          </div>
+          <span class="px-3 py-1 rounded-lg bg-amber-400/10 border border-amber-400/30 text-py-yellow text-xs font-semibold">
+            Zero-Loop Vectorized Standard
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="weeks-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- How Indian Companies Test Python Matrix -->
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <h3 class="text-lg font-bold text-white mb-2">🇮🇳 What Each Indian Interview Tier Actually Tests in Python</h3>
+        <p class="text-sm text-slate-400 mb-6">Knowing whether your interviewer wants Core Python data structures, messy Pandas reconciliation, or production ETL scripts gives you an immediate edge.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded text-xs font-bold bg-sky-500/20 text-sky-300">Tier 1: Service IT & Enterprise</span>
+              <span class="text-xs text-slate-500">TCS, Infosys, Wipro, Cognizant, LTIMindtree</span>
+            </div>
+            <h4 class="font-bold text-white text-base">Core Python Mechanics & Pandas Fundamentals</h4>
+            <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4">
+              <li><strong>Core Python:</strong> List vs Tuple vs Set, Shallow vs Deep Copy (<code class="text-py-yellow">copy.deepcopy</code>), Mutable default arguments trap, <code class="text-py-yellow">is</code> vs <code class="text-py-yellow">==</code>, List/Dict comprehensions.</li>
+              <li><strong>Pandas Indexing & Joins:</strong> <code class="text-py-yellow">loc[]</code> vs <code class="text-py-yellow">iloc[]</code>, <code class="text-py-yellow">merge()</code> vs <code class="text-py-yellow">concat()</code> vs <code class="text-py-yellow">join()</code>, <code class="text-py-yellow">map()</code> vs <code class="text-py-yellow">apply()</code>, <code class="text-py-yellow">drop_duplicates(keep='last')</code>.</li>
+              <li><strong>String/List Coding:</strong> Frequency counter using <code class="text-py-yellow">dict.get()</code>, flattening nested lists, finding the 2nd largest number without <code class="text-py-yellow">sort()</code>.</li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded text-xs font-bold bg-purple-500/20 text-purple-300">Tier 2: Big 4 & Analytics Firms</span>
+              <span class="text-xs text-slate-500">Deloitte, EY, KPMG, PwC, Fractal, Tiger, Tredence</span>
+            </div>
+            <h4 class="font-bold text-white text-base">Messy Data Wrangling, Recon & Automation</h4>
+            <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4">
+              <li><strong>Multi-File & Schema Drift:</strong> Combining 50 messy Excel/CSV files with <code class="text-py-yellow">glob</code> + <code class="text-py-yellow">pd.concat()</code>, handling corrupt date formats and mixed currency strings (<code class="text-py-yellow">₹1,20,500/-</code>).</li>
+              <li><strong>SQL-to-Pandas Translation:</strong> Writing SQL Window functions in Pandas using <code class="text-py-yellow">groupby().transform()</code>, <code class="text-py-yellow">rank(method='dense')</code>, and <code class="text-py-yellow">shift()</code>.</li>
+              <li><strong>Business Reconciliation:</strong> Automated GSTR-2B vs ERP matching (`indicator=True`), group-specific median imputation, and formatted Excel exports.</li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded text-xs font-bold bg-emerald-500/20 text-emerald-300">Tier 3: Product, FinTech & GCCs (Top 1%)</span>
+              <span class="text-xs text-slate-500">Swiggy, Razorpay, Flipkart, Cred, Walmart, JP Morgan</span>
+            </div>
+            <h4 class="font-bold text-white text-base">Vectorization, Memory Scale & Statistical Rigor</h4>
+            <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4">
+              <li><strong>Zero-Loop Performance:</strong> Refactoring slow <code class="text-py-yellow">.apply(axis=1)</code> functions into <code class="text-py-yellow">np.select()</code> or NumPy broadcasting; explaining why Pandas 2.0 PyArrow strings cut RAM by 70%.</li>
+              <li><strong>Product Analytics:</strong> Cohort retention matrices (<code class="text-py-yellow">pivot_table</code>), 30-min clickstream sessionization, A/B test p-values & Mann-Whitney U tests for skewed GMV data.</li>
+              <li><strong>Pipeline Engineering:</strong> Idempotent chunked database loads via SQLAlchemy, logging, retry decorators, and triggering downstream BI refreshes via REST API.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Data Backup & Reset Modal -->
+  <div id="data-modal" class="fixed inset-0 z-50 hidden bg-black/75 flex items-center justify-center p-4">
+    <div class="glass-panel max-w-md w-full rounded-2xl p-6 border border-slate-700 space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 class="font-bold text-lg text-white">Python Mastery Progress Backup</h3>
+        <button onclick="closeDataModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <p class="text-xs text-slate-300">All checkboxes, solved coding arena scripts, and module notes are saved automatically in your browser's <code class="text-py-yellow">localStorage</code>.</p>
+      <div class="flex flex-col gap-2.5 pt-2">
+        <button onclick="downloadBackupJSON()" class="w-full py-2.5 px-4 rounded-xl bg-py-yellow text-black font-bold text-xs hover:bg-amber-300 transition">
+          ⬇️ Download Python Progress Backup (.json)
+        </button>
+        <button onclick="resetAllProgress()" class="w-full py-2.5 px-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 font-semibold text-xs hover:bg-red-500/20 transition">
+          🗑️ Reset All Checkboxes & Saved Code
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Data & Engine -->
+  <script>
+    // =========================================================================
+    // 1. 10-MODULE TOP 1% PYTHON SYLLABUS DATA
+    // =========================================================================
+    const PYTHON_MODULES = [
+      {
+        id: "py_m1",
+        num: 1,
+        phase: 1,
+        phaseName: "Phase 1 — Core Python Internals & Data Structures",
+        title: "Python Memory Model, Mutability & Classic Interview Traps",
+        priority: "Critical",
+        learn: [
+          "Mutable (`list`, `dict`, `set`, `bytearray`) vs Immutable (`int`, `float`, `str`, `tuple`, `frozenset`) types and how object references work in memory.",
+          "`==` (value equality) vs `is` (memory identity / `id()`), including Python's integer caching (`-5` to `256`) and string interning.",
+          "Shallow Copy (`copy.copy()` / `list[:]`) vs Deep Copy (`copy.deepcopy()`): why modifying a nested list inside a shallow copy mutates the original list!",
+          "The Infamous Mutable Default Argument Trap: why `def append_item(val, target=[]):` retains state across function calls, and why `target=None` is mandatory.",
+          "Time Complexity ($O(1)$ vs $O(n)$): why checking `if x in my_set:` or `my_dict` is instantaneous ($O(1)$ hash lookup) while `if x in my_list:` scans every element ($O(n)$).",
+          "Unpacking (`a, *middle, b = items`), `*args` and `**kwargs`, `zip()`, `enumerate()`, and `collections.Counter` / `defaultdict`."
+        ],
+        scenarios: [
+          "An interviewer shows `a = [[1, 2], [3, 4]]; b = a[:]; b[0][0] = 99` and asks what `a` prints and why.",
+          "You have a list of 2 million customer IDs from ERP and 500,000 customer IDs from a marketing suppression list. Why does `[x for x in erp_ids if x not in suppression_list]` take 4 minutes, and how do you make it run in 0.08 seconds?",
+          "Explain why `def load_transactions(txns, errors=[]):` caused yesterday's validation errors to appear in today's batch report."
+        ],
+        masteryTest: "Explain Shallow vs Deep Copy, the Mutable Default Argument trap, and Set O(1) hash lookup optimization aloud, and write a 1-line `collections.Counter` + set-difference reconciliation.",
+        blueprint: `• 4 Minutes -> 0.08 Seconds Lookup Fix:
+  Never check membership against a large list inside a loop (`O(N * M)` complexity!).
+  Convert the lookup list to a Set first (`O(1)` hash table lookup, reducing total complexity to `O(N + M)`):
+  suppression_set = set(suppression_list)
+  valid_customers = [x for x in erp_ids if x not in suppression_set]`
+      },
+      {
+        id: "py_m2",
+        num: 2,
+        phase: 1,
+        phaseName: "Phase 1 — Core Python Internals & Data Structures",
+        title: "Comprehensions, Generators, Functions & Exception Handling",
+        priority: "Critical",
+        learn: [
+          "List, Dictionary, and Set Comprehensions with conditional filtering and nested loop flattening.",
+          "Generator Expressions `(x for x in ...)` and `yield` functions: how lazy evaluation processes a 15GB log file using <5MB of RAM instead of crashing with `MemoryError`.",
+          "Lambda functions, sorting complex structures with `sorted(data, key=lambda x: (x['dept'], -x['salary']))`.",
+          "Robust Exception Handling in Data Pipelines: `try / except / else / finally`, raising custom `ValueError` on schema mismatches, and context managers (`with open(...)`).",
+          "Writing reusable Decorators (e.g., `@timer` to log execution time or `@retry` for flaky API/database connections)."
+        ],
+        scenarios: [
+          "Flatten a jagged list of regional invoice batches `[[101, 102], [103], [104, 105, 106]]` and keep only even invoice IDs in a single list comprehension.",
+          "Write a memory-efficient Python generator that reads a 20GB CSV file line-by-line and yields only rows where `status == 'FAILED'` without loading the file into RAM.",
+          "Sort a list of dictionaries representing employees by `department` ascending and `salary` descending using a single `sorted()` call."
+        ],
+        masteryTest: "Write a generator function using `yield`, a nested list comprehension, and a `@retry` decorator from scratch without notes.",
+        blueprint: `• Nested List Comprehension Syntax Order (Read Left-to-Right like Nested For-Loops!):
+  batches = [[101, 102], [103], [104, 105, 106]]
+  even_invoices = [inv for batch in batches for inv in batch if inv % 2 == 0]
+  # Outer loop comes first ('for batch in batches'), inner loop second ('for inv in batch')!`
+      },
+      {
+        id: "py_m3",
+        num: 3,
+        phase: 1,
+        phaseName: "Phase 1 — Core Python Internals & Data Structures",
+        title: "NumPy Vectorization, Broadcasting & Conditional Logic",
+        priority: "Critical",
+        learn: [
+          "Why NumPy `ndarray` is 50x–100x faster than Python lists: contiguous C-arrays in memory, homogeneous data types, and SIMD vectorized CPU instructions (no per-element Python type-checking overhead).",
+          "`np.where(condition, val_if_true, val_if_false)` for binary vectorized IF-ELSE.",
+          "`np.select(condlist, choicelist, default=...)`: the Top 1% replacement for slow multi-branch `df.apply(axis=1)` or SQL `CASE WHEN` statements.",
+          "Array Broadcasting rules: how NumPy operates on arrays of different shapes (e.g., subtracting a 1D row mean vector from a 2D matrix).",
+          "`np.nan` vs `None`: why `np.nan == np.nan` is `False` (IEEE 754 floating-point standard), why you must use `np.isnan()` or `pd.isna()`, and how a single `np.nan` used to force integer columns to `float64` before Nullable Integers (`Int64`)."
+        ],
+        scenarios: [
+          "Categorize 5 million Flipkart orders into `'VIP'` (`amount >= 10000` and `is_plus == True`), `'High Value'` (`amount >= 10000`), `'Standard'` (`amount >= 1000`), and `'Micro'` without using `.apply()` or loops.",
+          "Explain why `df[df['discount'] == np.nan]` returns an empty DataFrame even when thousands of rows have `NaN` discounts.",
+          "Explain why multiplying two 10-million-element NumPy arrays takes 15 milliseconds while multiplying two Python lists in a loop takes 1.2 seconds."
+        ],
+        masteryTest: "Replace a 15-line row-wise `def classify_row(row):` + `df.apply(axis=1)` function with a 5-line `np.select()` vectorized expression.",
+        blueprint: `• Vectorized SQL 'CASE WHEN' in Python using np.select():
+  conditions = [
+      (df['amount'] >= 10000) & (df['is_plus'] == True),
+      (df['amount'] >= 10000),
+      (df['amount'] >= 1000)
+  ]
+  choices = ['VIP', 'High Value', 'Standard']
+  df['tier'] = np.select(conditions, choices, default='Micro')`
+      },
+      {
+        id: "py_m4",
+        num: 4,
+        phase: 2,
+        phaseName: "Phase 2 — Pandas 2.0 Internals, Wrangling & SQL Translation",
+        title: "Pandas Architecture: Indexing, Copy-on-Write & Selection",
+        priority: "Critical",
+        learn: [
+          "Series vs DataFrame internals: Index alignment during arithmetic operations (why adding two Series with mismatched indexes produces `NaN`s unless you use `.add(fill_value=0)`).",
+          "`loc[]` (label-based, inclusive of stop bound `df.loc[0:5]` returns 6 rows if labels are 0..5!) vs `iloc[]` (integer position-based, exclusive of stop bound `df.iloc[0:5]` returns 5 rows).",
+          "Understanding `SettingWithCopyWarning` (chained indexing `df[df['a'] > 5]['b'] = 10`) vs single-step `df.loc[df['a'] > 5, 'b'] = 10`, and how Pandas 2.0+ **Copy-on-Write (CoW)** (`pd.options.mode.copy_on_write = True`) eliminates silent view mutations.",
+          "Boolean Indexing with bitwise operators (`&`, `|`, `~`), `.isin()`, `.between()`, and `.query('region == \"South\" and sales > 50000')`.",
+          "Deduplication with Business Priority: sorting by `['invoice_no', 'modified_at']` and calling `.drop_duplicates(subset=['invoice_no'], keep='last')`."
+        ],
+        scenarios: [
+          "After filtering a DataFrame `active_df = df[df['status'] == 'Active']`, an analyst calls `active_df.iloc[0:3]` vs `active_df.loc[0:3]`. Why do they return completely different rows?",
+          "Why does `df[df['region'] == 'South']['target'] = 100` fail to update `df` and trigger a `SettingWithCopyWarning`?",
+          "Deduplicate a raw GST invoice extract where the same `gst_invoice_no` appears multiple times due to amendments, keeping only the latest `amended_timestamp` with the highest `version_id`."
+        ],
+        masteryTest: "Demonstrate the exact difference between `.loc`, `.iloc`, index alignment on `.add(fill_value=0)`, and safe `.loc[mask, col] = val` assignment without warnings.",
+        blueprint: `• Why Index Alignment Trips Up 90% of Candidates:
+  If s1 = pd.Series([100, 200], index=['Store_A', 'Store_B'])
+  and s2 = pd.Series([50, 80], index=['Store_B', 'Store_C'])
+  Then s1 + s2 produces:
+  Store_A: NaN, Store_B: 250.0, Store_C: NaN!
+  Fix: Always use s1.add(s2, fill_value=0) when indexes might not 100% overlap!`
+      },
+      {
+        id: "py_m5",
+        num: 5,
+        phase: 2,
+        phaseName: "Phase 2 — Pandas 2.0 Internals, Wrangling & SQL Translation",
+        title: "GroupBy, Transform (SQL Windows), Reshaping & Safe Joins",
+        priority: "Critical",
+        learn: [
+          "The Split-Apply-Combine engine (`df.groupby()`): why `as_index=False` and `observed=True` (critical for Categorical columns!) matter.",
+          "Named Aggregation syntax: `df.groupby('dept', as_index=False).agg(total_sales=('sales', 'sum'), avg_margin=('margin', 'mean'), unique_cust=('cust_id', 'nunique'))`.",
+          "`groupby().transform()` vs `groupby().agg()` vs `groupby().apply()`: how `.transform()` broadcasts group-level aggregates back to the original row length (exact equivalent of SQL `SUM() OVER (PARTITION BY ...)`)!",
+          "SQL Window Functions in Pandas: `df.groupby('dept')['salary'].rank(method='dense', ascending=False)`, `.shift(1)` (SQL `LAG`), `.shift(-1)` (SQL `LEAD`), `.cumsum()`, and `.pct_change()`.",
+          "Relational Joins with Guardrails: `pd.merge(left, right, on='id', how='left', indicator=True, validate='m:1')`—using `_merge == 'left_only'` for Left Anti-Joins and `validate` to prevent unintentional Many-to-Many Cartesian explosions!",
+          "Reshaping: `pd.pivot_table(index=..., columns=..., values=..., aggfunc='sum', fill_value=0, margins=True)`, `df.melt()` (Unpivot), and `df.explode()` (unnesting JSON/list columns into rows)."
+        ],
+        scenarios: [
+          "In a single line of Pandas without `merge()`, add a column `dept_salary_share_pct` that shows each employee's salary divided by their department's total payroll.",
+          "Perform a Left Anti-Join in Pandas to find all ERP invoices that are missing from the GSTR-2B portal DataFrame, and ensure that duplicate keys in GSTR-2B throw an immediate validation error before multiplying rows.",
+          "An e-commerce order table stores purchased items as a list of SKUs per row (`['SKU1', 'SKU2']`). Convert it to 1 row per SKU and compute total revenue per SKU."
+        ],
+        masteryTest: "Write the Pandas equivalents of SQL `DENSE_RANK() OVER (PARTITION BY ...)`, `SUM() OVER (PARTITION BY ...)`, `LAG()`, and `LEFT ANTI JOIN` without any loops or helper merges.",
+        blueprint: `• SQL Window Functions -> Pandas 1-Line Translation Cheat Sheet:
+  1) SUM(sal) OVER (PARTITION BY dept):
+     df['dept_payroll'] = df.groupby('dept')['sal'].transform('sum')
+  2) DENSE_RANK() OVER (PARTITION BY dept ORDER BY sal DESC):
+     df['sal_rank'] = df.groupby('dept')['sal'].rank(method='dense', ascending=False)
+  3) LAG(sal, 1) OVER (PARTITION BY emp ORDER BY month):
+     df['prev_sal'] = df.sort_values('month').groupby('emp')['sal'].shift(1)`
+      },
+      {
+        id: "py_m6",
+        num: 6,
+        phase: 2,
+        phaseName: "Phase 2 — Pandas 2.0 Internals, Wrangling & SQL Translation",
+        title: "Indian Data Cleaning: Regex (GSTIN/PAN/INR) & FY (Apr–Mar) Time Series",
+        priority: "Critical",
+        learn: [
+          "Vectorized String & Regex methods (`df['col'].str.extract()`, `.str.replace()`, `.str.contains()`, `.str.strip()`).",
+          "Cleaning Indian Currency & Number Formats: stripping `'₹'`, `','`, `'/-'`, `'Cr'`, `'Lakh'`, and accounting parentheses `'(12,500)'` -> `-12500.0`.",
+          "Validating & Extracting Indian Identifiers via Regex: **PAN** (`^[A-Z]{5}[0-9]{4}[A-Z]{1}$`) and **15-Digit GSTIN** (`^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$`, plus extracting the embedded 2-digit State Code and 10-character PAN from every GSTIN!).",
+          "Date & Timezone Mastery (`pd.to_datetime(..., format='mixed', dayfirst=True)` for Indian `DD-MM-YYYY` dates, converting UTC timestamps to IST `.dt.tz_convert('Asia/Kolkata')`).",
+          "Indian Financial Year (April–March) in Pandas: using `df.resample('QE-MAR')` / `df.resample('YE-MAR')` or `(df['date'] - pd.DateOffset(months=3)).dt.year` for fiscal year/quarter tagging.",
+          "Rolling & Expanding Windows: `df.groupby('store_id').rolling('7D', on='sale_date')['sales'].mean()` and time-series forward-filling (`.ffill()`)."
+        ],
+        scenarios: [
+          "A column `raw_amount` contains messy Indian strings like `'₹ 1,45,200.50/-'`, `'Rs. 85,000'`, `'(12,000)'` (negative), and `'NIL'`. Clean and convert it into a `float64` column.",
+          "Given a column of vendor GSTINs, validate which rows match the official 15-character Indian GSTIN structure, extract the 2-digit State Code, and extract the vendor's 10-character PAN directly from characters 3–12 of the GSTIN.",
+          "Tag a DataFrame of daily transactions with `Indian_FY` (`'FY2025-26'`) and `Indian_FQ` (`'FQ1'`–`'FQ4'`) where April 1 starts the financial year."
+        ],
+        masteryTest: "Write the GSTIN Regex validator + PAN extractor and the Indian Financial Year (`Apr–Mar`) tagging pipeline in Pandas without references.",
+        blueprint: `• Indian Financial Year & Quarter in Pandas (The 3-Month Offset Trick):
+  shifted = df['invoice_date'] - pd.DateOffset(months=3)
+  df['fy_start'] = shifted.dt.year
+  df['indian_fy'] = 'FY' + df['fy_start'].astype(str) + '-' + (df['fy_start'] + 1).astype(str).str[-2:]
+  df['indian_fq'] = 'FQ' + shifted.dt.quarter.astype(str)`
+      },
+      {
+        id: "py_m7",
+        num: 7,
+        phase: 3,
+        phaseName: "Phase 3 — Exploratory Data Analysis, Statistics & Big Data Scaling",
+        title: "Missing Data Imputation, Outlier Detection & Statistical Testing",
+        priority: "High",
+        learn: [
+          "Group-Specific Imputation (Top 1% Pattern): why filling missing `salary` or `delivery_time` with the global mean distorts cohorts, and how to impute using the group median (`df['val'] = df['val'].fillna(df.groupby('category')['val'].transform('median'))`).",
+          "Outlier Detection & Winsorization: Z-Score (`|z| > 3` for normal distributions) vs **IQR Method** ($Q_1 - 1.5 \\times \\text{IQR}$ and $Q_3 + 1.5 \\times \\text{IQR}$ for skewed Indian income/order-value data) and `.clip(lower, upper)`.",
+          "Mean vs Median vs Trimmed Mean: why Indian e-commerce AOV (Average Order Value) and salary data are heavily right-skewed.",
+          "Hypothesis Testing for Product/Marketing Analysts (`scipy.stats`): Two-Sample Welch's t-test (`ttest_ind(equal_var=False)`), **Mann-Whitney U test** (`mannwhitneyu` for non-normal skewed revenue), and **Chi-Square test** (`chi2_contingency` for conversion rate A/B tests).",
+          "Correlation Traps: Pearson (`r`, linear) vs Spearman (`rho`, rank-based monotonic, resilient to outliers), and Simpson's Paradox across regional segments."
+        ],
+        scenarios: [
+          "In a real-estate dataset across Mumbai, Bengaluru, and Kochi, 12% of `property_price` values are `NaN`. Why is `df['property_price'].fillna(df['property_price'].mean())` wrong, and how do you impute by `(city, bhk_type)` median in 1 line?",
+          "You ran a marketing campaign A/B test where Variant B had a higher mean order value due to 3 whale B2B orders of ₹50 Lakhs each. Which statistical test (`ttest_ind` vs `mannwhitneyu`) and capping strategy (`clip` at 99th percentile) should you use?",
+          "Cap extreme outliers in `delivery_minutes` at the 1st and 99th percentiles within each city using Pandas."
+        ],
+        masteryTest: "Write a 1-line group-median `.fillna(df.groupby(...).transform('median'))` and an IQR / 99th-percentile `.clip()` outlier Winsorization pipeline.",
+        blueprint: `• Group-Aware Missing Value Imputation (Never Use Global Mean on Stratified Data!):
+  # Imputes missing price using the exact median of that specific City + Product Category:
+  df['price'] = df['price'].fillna(
+      df.groupby(['city', 'category'])['price'].transform('median')
+  )`
+      },
+      {
+        id: "py_m8",
+        num: 8,
+        phase: 3,
+        phaseName: "Phase 3 — Exploratory Data Analysis, Statistics & Big Data Scaling",
+        title: "Optimizing Pandas for 10M+ Rows, Memory Downcasting & Polars/PyArrow",
+        priority: "Critical",
+        learn: [
+          "Inspecting true memory footprint: why `df.info(memory_usage='deep')` is needed to reveal the hidden RAM usage of Python `object` string columns.",
+          "80% RAM Reduction Checklist: 1) Pass `usecols=[...]` and `dtype={...}` inside `pd.read_csv()`. 2) Convert low-cardinality strings (Region, Status, Brand) to `category` dtype. 3) Downcast `int64`/`float64` to `int32`/`int16`/`float32`. 4) Use `dtype_backend='pyarrow'` in Pandas 2.0.",
+          "Out-of-Core Chunked Processing: reading a 25GB CSV on an 8GB laptop using `for chunk in pd.read_csv('huge.csv', chunksize=500_000):`, filtering/aggregating each chunk, and combining the small summaries.",
+          "Storage Format Benchmarks: why **Apache Parquet** (columnar, Snappy/Zstd compressed, preserves schema/dtypes, supports predicate pushdown `filters=[('region', '==', 'South')]`) is 10x faster and 75% smaller than CSV/Excel.",
+          "When to switch from Pandas to **Polars** or **DuckDB**: lazy evaluation (`pl.scan_parquet()`), multi-threaded Rust execution, and querying Parquet files directly with SQL."
+        ],
+        scenarios: [
+          "An interviewer asks: 'You need to aggregate a 16GB CSV file of UPI transactions by `merchant_category` on a laptop with 8GB RAM, and `pd.read_csv()` crashes with `MemoryError`. Write the exact Python code to solve this.'",
+          "How do you reduce a 4.2GB Pandas DataFrame in memory down to <600MB without losing a single row of data?",
+          "Why does saving intermediate ETL outputs as `.parquet` instead of `.csv` prevent leading-zero truncation on Indian PIN codes (`011001`) and GST state codes (`07`)?"
+        ],
+        masteryTest: "Write a complete `chunksize` aggregation loop over a massive CSV file and a memory-optimization function that downcasts numeric and string columns.",
+        blueprint: `• Processing a 16GB CSV on an 8GB RAM Laptop using chunksize:
+  partial_aggs = []
+  for chunk in pd.read_csv('upi_16gb.csv', usecols=['merchant_cat', 'amount'], chunksize=500_000):
+       partial_aggs.append(chunk.groupby('merchant_cat', as_index=False)['amount'].sum())
+  
+  final_summary = (
+      pd.concat(partial_aggs, ignore_index=True)
+      .groupby('merchant_cat', as_index=False)['amount'].sum()
+  )`
+      },
+      {
+        id: "py_m9",
+        num: 9,
+        phase: 4,
+        phaseName: "Phase 4 — Production ETL, SQL Integration & Power BI Automation",
+        title: "Database Integration (SQLAlchemy, Redshift/SQL Server) & APIs",
+        priority: "Critical",
+        learn: [
+          "Connecting Python to SQL Server, PostgreSQL, and Amazon Redshift using `SQLAlchemy` (`create_engine`) + connection pooling.",
+          "Parameterized SQL Queries (`sqlalchemy.text('SELECT * FROM sales WHERE sale_date >= :start_dt')`): preventing SQL injection and enabling safe dynamic date watermarks.",
+          "High-Speed Database Writes: why default `df.to_sql()` is slow (row-by-row inserts), and how `method='multi'`, `chunksize=10000`, `fast_executemany=True` (pyodbc), or Redshift `COPY FROM S3 Parquet` speeds up loads by 50x.",
+          "Consuming REST APIs (`requests.Session()`, Bearer token authentication, pagination loops, exponential backoff rate-limit handling, and flattening nested JSON with `pd.json_normalize()`).",
+          "Environment security: storing DB passwords and API keys in `.env` (`os.getenv()`) or Azure Key Vault—never hardcoding credentials in scripts committed to Git."
+        ],
+        scenarios: [
+          "Write a Python function that fetches paginated marketing campaign metrics from a REST API, flattens the nested JSON response using `pd.json_normalize()`, and loads it into a SQL Server / Redshift staging table.",
+          "Why did `df.to_sql('staging_sales', engine, if_exists='replace')` break the downstream SQL views and permissions in production, and why should you use `TRUNCATE` + `if_exists='append'` instead?",
+          "How do you push heavy joins and filters into the SQL database query before calling `pd.read_sql()` rather than pulling 30 million raw rows into Python memory?"
+        ],
+        masteryTest: "Write an idempotent SQLAlchemy ETL script that reads incremental records with parameterized dates, transforms them in Pandas, and loads them safely into a target table.",
+        blueprint: `• Production Trap: Never Use if_exists='replace' on Production Staging Tables!
+  df.to_sql(..., if_exists='replace') executes DROP TABLE followed by CREATE TABLE.
+  In SQL Server / Redshift / Postgres, dropping the table either fails due to dependent Views or wipes out all GRANT permissions and Indexes!
+  Instead: Execute 'TRUNCATE TABLE staging.sales;' inside a transaction, then call df.to_sql(..., if_exists='append', method='multi', chunksize=5000).`
+      },
+      {
+        id: "py_m10",
+        num: 10,
+        phase: 4,
+        phaseName: "Phase 4 — Production ETL, SQL Integration & Power BI Automation",
+        title: "End-to-End BI Automation: Excel Engines, Power BI REST API & Defense",
+        priority: "Critical",
+        learn: [
+          "When to use Python Inside Power BI vs Upstream of Power BI: why Power BI's built-in Python script connector/visual has timeouts and Personal Gateway limits, and why running Python **upstream** (writing clean tables to SQL/Redshift/SharePoint/OneLake) is the enterprise gold standard.",
+          "Triggering Power BI Semantic Model Refreshes from Python: calling the Power BI REST API (`POST https://api.powerbi.com/v1.0/myorg/groups/{groupId}/datasets/{datasetId}/refreshes`) or a Power Automate webhook immediately after your Python/Alteryx ETL reconciliation passes!",
+          "Automated Multi-Sheet Excel Reporting (`pd.ExcelWriter` with `openpyxl` / `xlsxwriter`): writing executive summary tabs, auto-fitting column widths, applying Indian currency formats (`₹#,##0`), and emailing reports automatically.",
+          "Automated Reconciliation Gate: halting the pipeline and sending a Teams/Slack alert if `abs(source_sum - target_sum) > 0.01` or if duplicate primary keys are detected.",
+          "Defending your Python + SQL + Alteryx + Power BI architecture in Senior Analyst & BI Developer interviews."
+        ],
+        scenarios: [
+          "Walk me through how you automated a manual 4-hour weekly reporting workflow using Python, SQL, and Power BI / Power Automate.",
+          "An interviewer asks: 'Should we run our complex Python data cleaning script directly inside Power Query's Run Python Script step, or run it upstream before Power BI?' Defend the architectural trade-offs.",
+          "Write a Python script that exports a dictionary of regional DataFrames into separate tabs of a single Excel workbook (`FY26_Regional_Sales.xlsx`) without overwriting previous tabs."
+        ],
+        masteryTest: "Explain your end-to-end Python → SQL/Staging → Reconciliation Check → Power BI Refresh / Excel Automation workflow clearly in under 3 minutes.",
+        blueprint: `• Why Upstream Python Beats 'Run Python Script' Inside Power Query (Senior Architectural Answer):
+  1) Gateway Constraint: Python scripts inside Power Query typically require a Personal Gateway or complex local runtime matching, whereas upstream Python writing to SQL/Redshift/Azure Blob works seamlessly with Standard Enterprise Gateways or cloud refresh.
+  2) Query Folding & Timeout: Power Query Python steps break query folding and serialize DataFrames via CSV in memory (strict 5–30 min timeouts).
+  3) Reusability: Upstream Python outputs a single validated staging table that feeds Power BI, Excel, and ad-hoc SQL queries simultaneously.`
+      }
+    ];
+
+    // =========================================================================
+    // 2. PYTHON & PANDAS CODING ARENA (12 INTERACTIVE LIVE PROBLEMS)
+    // =========================================================================
+    const ARENA_PROBLEMS = [
+      {
+        id: "py_p1",
+        company: "Big 4 / FinTech GST",
+        difficulty: "Medium-Hard • Merge & Recon",
+        title: "1. Automated GST GSTR-2B vs ERP Purchase Reconciliation in Pandas",
+        prompt: "You have two DataFrames: `erp_df` (internal purchase register) and `gstr2b_df` (government portal download). Both have `gstin`, `inv_no` (which may have lowercase letters or trailing spaces), and `tax_amt`. Standardize the keys, aggregate any split line-items per invoice, merge them with `indicator=True`, and classify every invoice into `'Exact_Match'` (diff <= ₹1), `'Value_Mismatch'` (diff > ₹1), `'Missing_in_GSTR2B'`, or `'Missing_in_ERP'`.",
+        schema: `erp_df    = pd.DataFrame({'gstin': [...], 'inv_no': [...], 'tax_amt': [...]})
+gstr2b_df = pd.DataFrame({'gstin': [...], 'inv_no': [...], 'tax_amt': [...]})`,
+        hint: "Clean `inv_no` with `.str.strip().str.upper()`, group both DataFrames by `['gstin', 'inv_no']` to ensure 1:1 keys, call `pd.merge(..., how='outer', on=['gstin', 'inv_no'], suffixes=('_erp', '_portal'), indicator=True, validate='1:1')`, and use `np.select()`.",
+        solution: `import pandas as pd
+import numpy as np
+
+def reconcile_gst(erp_df: pd.DataFrame, gstr2b_df: pd.DataFrame) -> pd.DataFrame:
+    # 1. Standardize keys and aggregate split line items to 1 row per (gstin, inv_no)
+    erp_clean = (
+        erp_df.assign(
+            gstin=erp_df['gstin'].str.strip().str.upper(),
+            inv_no=erp_df['inv_no'].str.strip().str.upper()
+        )
+        .groupby(['gstin', 'inv_no'], as_index=False)['tax_amt'].sum()
+        .rename(columns={'tax_amt': 'erp_tax'})
+    )
+    
+    portal_clean = (
+        gstr2b_df.assign(
+            gstin=gstr2b_df['gstin'].str.strip().str.upper(),
+            inv_no=gstr2b_df['inv_no'].str.strip().str.upper()
+        )
+        .groupby(['gstin', 'inv_no'], as_index=False)['tax_amt'].sum()
+        .rename(columns={'tax_amt': 'portal_tax'})
+    )
+    
+    # 2. Full Outer Join with 1:1 validation guardrail
+    recon = pd.merge(
+        erp_clean, portal_clean,
+        on=['gstin', 'inv_no'],
+        how='outer',
+        indicator=True,
+        validate='1:1'
+    )
+    
+    recon['erp_tax']    = recon['erp_tax'].fillna(0.0)
+    recon['portal_tax'] = recon['portal_tax'].fillna(0.0)
+    recon['variance']   = recon['erp_tax'] - recon['portal_tax']
+    
+    # 3. Vectorized classification using np.select
+    conditions = [
+        recon['_merge'] == 'left_only',
+        recon['_merge'] == 'right_only',
+        recon['variance'].abs() <= 1.0
+    ]
+    choices = ['Missing_in_GSTR2B', 'Missing_in_ERP', 'Exact_Match']
+    recon['recon_status'] = np.select(conditions, choices, default='Value_Mismatch')
+    
+    return recon.drop(columns=['_merge']).sort_values('recon_status')`
+      },
+      {
+        id: "py_p2",
+        company: "Swiggy / Zomato",
+        difficulty: "Hard • Gaps & Islands in Pandas",
+        title: "2. 5-Day Consecutive Delivery Partner Streak (Zero Loops)",
+        prompt: "Given `orders_df` (`partner_id`, `order_date`, `status`), find all delivery partners who completed at least 12 `'DELIVERED'` orders per day for 5 or more consecutive calendar days. Return `partner_id`, `streak_start`, `streak_end`, and `streak_days`.",
+        schema: `orders_df = pd.DataFrame({
+    'order_id': [...],
+    'partner_id': [...],
+    'order_date': pd.to_datetime([...]),
+    'status': ['DELIVERED', 'CANCELLED', ...]
+})`,
+        hint: "Filter `status == 'DELIVERED'`, group by `['partner_id', 'order_date']` and filter `count >= 12`. Sort by `['partner_id', 'order_date']` and subtract `pd.to_timedelta(df.groupby('partner_id').cumcount(), unit='D')` from `order_date` to form an `island_id`!",
+        solution: `import pandas as pd
+
+def find_delivery_streaks(orders_df: pd.DataFrame) -> pd.DataFrame:
+    # Step 1: Qualifying partner-days with >= 12 delivered orders
+    daily = (
+        orders_df[orders_df['status'] == 'DELIVERED']
+        .groupby(['partner_id', 'order_date'], as_index=False)
+        .size()
+        .rename(columns={'size': 'delivered_count'})
+    )
+    qualifying = daily[daily['delivered_count'] >= 12].sort_values(['partner_id', 'order_date']).copy()
+    
+    # Step 2: Gaps & Islands trick -> Date minus sequential cumcount() days
+    qualifying['row_num'] = qualifying.groupby('partner_id').cumcount()
+    qualifying['island_id'] = qualifying['order_date'] - pd.to_timedelta(qualifying['row_num'], unit='D')
+    
+    # Step 3: Aggregate consecutive streaks >= 5 days
+    streaks = (
+        qualifying.groupby(['partner_id', 'island_id'], as_index=False)
+        .agg(
+            streak_start=('order_date', 'min'),
+            streak_end=('order_date', 'max'),
+            streak_days=('order_date', 'count')
+        )
+    )
+    return streaks[streaks['streak_days'] >= 5].drop(columns=['island_id'])`
+      },
+      {
+        id: "py_p3",
+        company: "Razorpay / PhonePe",
+        difficulty: "Hard • Shift & Time Deltas",
+        title: "3. UPI Failed Payment Recovery Rate Within 10 Minutes",
+        prompt: "In `upi_df` (`txn_id`, `user_id`, `merchant_id`, `amount`, `txn_time`, `status`), calculate the percentage of `'FAILED'` transactions where the exact next attempt by the same `user_id`, `merchant_id`, and `amount` was a `'SUCCESS'` within 10 minutes (600 seconds).",
+        schema: `upi_df = pd.DataFrame({
+    'txn_id': [...], 'user_id': [...], 'merchant_id': [...],
+    'amount': [...], 'txn_time': pd.to_datetime([...]),
+    'status': ['FAILED', 'SUCCESS', ...]
+})`,
+        hint: "Sort by `['user_id', 'merchant_id', 'amount', 'txn_time']`, then use `.groupby(['user_id', 'merchant_id', 'amount'])['status'].shift(-1)` and `.shift(-1)` on `txn_time` to inspect the immediate next attempt.",
+        solution: `import pandas as pd
+
+def upi_recovery_rate(upi_df: pd.DataFrame) -> dict:
+    df = upi_df.sort_values(['user_id', 'merchant_id', 'amount', 'txn_time']).copy()
+    
+    grp = df.groupby(['user_id', 'merchant_id', 'amount'])
+    df['next_status'] = grp['status'].shift(-1)
+    df['next_time']   = grp['txn_time'].shift(-1)
+    df['diff_sec']    = (df['next_time'] - df['txn_time']).dt.total_seconds()
+    
+    failed = df[df['status'] == 'FAILED']
+    recovered = failed[(failed['next_status'] == 'SUCCESS') & (failed['diff_sec'] <= 600)]
+    
+    total_failed = len(failed)
+    recovered_cnt = len(recovered)
+    rate_pct = round(100.0 * recovered_cnt / total_failed, 2) if total_failed > 0 else 0.0
+    
+    return {
+        'total_failed': total_failed,
+        'recovered_within_10m': recovered_cnt,
+        'recovery_rate_pct': rate_pct
+    }`
+      },
+      {
+        id: "py_p4",
+        company: "Service IT / Product Screen",
+        difficulty: "Medium • GroupBy Transform & Rank",
+        title: "4. Top 2 Salaries per Dept + % of Dept Payroll (No Merge!)",
+        prompt: "Given `emp_df` (`emp_id`, `emp_name`, `dept`, `salary`, `is_active`), filter to active employees in departments with at least 3 active staff. Add each employee's `dept_payroll_share_pct` and return only the employees earning the Top 2 distinct salaries per department without using `pd.merge()`.",
+        schema: `emp_df = pd.DataFrame({
+    'emp_id': [...], 'emp_name': [...], 'dept': [...],
+    'salary': [...], 'is_active': [True, False, ...]
+})`,
+        hint: "Use `df.groupby('dept')['salary'].transform('count')` for headcount, `.transform('sum')` for department payroll, and `.rank(method='dense', ascending=False)` for salary rank.",
+        solution: `import pandas as pd
+
+def top_2_dept_earners(emp_df: pd.DataFrame) -> pd.DataFrame:
+    active = emp_df[emp_df['is_active'] == True].copy()
+    
+    grp = active.groupby('dept')['salary']
+    active['dept_headcount'] = grp.transform('count')
+    active['dept_payroll']   = grp.transform('sum')
+    active['sal_rank']       = grp.rank(method='dense', ascending=False)
+    active['dept_payroll_share_pct'] = (100.0 * active['salary'] / active['dept_payroll']).round(2)
+    
+    result = active[(active['dept_headcount'] >= 3) & (active['sal_rank'] <= 2)]
+    return result.sort_values(['dept', 'sal_rank', 'emp_id'])`
+      },
+      {
+        id: "py_p5",
+        company: "Indian Finance / Consulting",
+        difficulty: "Medium • Regex & String Cleaning",
+        title: "5. Cleaning Messy Indian Currency Strings & Extracting PAN from GSTIN",
+        prompt: "A raw vendor dataset `vendor_df` has `gstin` (some invalid/lowercase) and `invoice_val` containing messy strings like `'₹ 1,25,000.50/-'`, `'Rs. 45,000'`, `'(8,500)'` (accounting negative), and `'NIL'`. Validate the 15-char GSTIN via Regex, extract the 10-char `pan_no` (chars 3–12), and parse `invoice_val` into a clean `float64` column `clean_amount`.",
+        schema: `vendor_df = pd.DataFrame({
+    'vendor_name': [...],
+    'gstin': ['29ABCDE1234F1Z5', 'invalid_gst', ...],
+    'invoice_val': ['₹ 1,25,000.50/-', '(8,500)', 'NIL', ...]
+})`,
+        hint: "For accounting negatives `'(8,500)'`, replace `'('` with `'-'` and remove all characters except digits, `'.'`, and `'-'` using `.str.replace(r'[^0-9.-]', '', regex=True)`, then call `pd.to_numeric(..., errors='coerce').fillna(0.0)`.",
+        solution: `import pandas as pd
+
+GSTIN_REGEX = r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$'
+
+def clean_indian_vendor_data(vendor_df: pd.DataFrame) -> pd.DataFrame:
+    df = vendor_df.copy()
+    
+    # 1. Clean and validate GSTIN + slice embedded 10-character PAN
+    df['gstin_clean'] = df['gstin'].astype(str).str.strip().str.upper()
+    df['is_valid_gstin'] = df['gstin_clean'].str.match(GSTIN_REGEX, na=False)
+    df['pan_no'] = df['gstin_clean'].where(df['is_valid_gstin']).str[2:12]
+    df['state_code'] = df['gstin_clean'].where(df['is_valid_gstin']).str[0:2]
+    
+    # 2. Convert '(8,500)' to '-8,500' and strip '₹', 'Rs.', ',', '/-'
+    raw_str = df['invoice_val'].astype(str).str.strip()
+    normalized = (
+        raw_str
+        .str.replace(r'^\((.*)\)$', r'-\1', regex=True)
+        .str.replace(r'[^0-9.\-]', '', regex=True)
+    )
+    df['clean_amount'] = pd.to_numeric(normalized, errors='coerce').fillna(0.0)
+    
+    return df`
+      },
+      {
+        id: "py_p6",
+        company: "Flipkart / D2C Analytics",
+        difficulty: "Hard • Cohort Retention Matrix",
+        title: "6. Customer Cohort Retention Matrix (M0 to M3 %) in Pandas",
+        prompt: "Given `orders_df` (`customer_id`, `order_date`), group customers into monthly cohorts based on their first purchase month (`cohort_month`). Output a retention percentage matrix with `cohort_month` on the index and month offset (`0, 1, 2, 3`) on the columns.",
+        schema: `orders_df = pd.DataFrame({
+    'order_id': [...],
+    'customer_id': [...],
+    'order_date': pd.to_datetime([...])
+})`,
+        hint: "Convert `order_date` to `.dt.to_period('M')`, compute `cohort_month = df.groupby('customer_id')['order_month'].transform('min')`, compute month difference `(order_month.dt.year - cohort_month.dt.year)*12 + (order_month.dt.month - cohort_month.dt.month)`, and pivot!",
+        solution: `import pandas as pd
+
+def build_cohort_matrix(orders_df: pd.DataFrame) -> pd.DataFrame:
+    df = orders_df.copy()
+    df['order_month']  = df['order_date'].dt.to_period('M')
+    df['cohort_month'] = df.groupby('customer_id')['order_month'].transform('min')
+    
+    # Month offset calculation
+    df['month_offset'] = (
+        (df['order_month'].dt.year - df['cohort_month'].dt.year) * 12 +
+        (df['order_month'].dt.month - df['cohort_month'].dt.month)
+    )
+    
+    cohort_counts = (
+        df[df['month_offset'].between(0, 3)]
+        .groupby(['cohort_month', 'month_offset'])['customer_id']
+        .nunique()
+        .unstack('month_offset')
+    )
+    
+    # Divide each column by M0 cohort size to get retention %
+    cohort_sizes = cohort_counts[0]
+    retention_pct = cohort_counts.divide(cohort_sizes, axis=0).mul(100).round(1)
+    return retention_pct`
+      },
+      {
+        id: "py_p7",
+        company: "Indian Enterprise / BI",
+        difficulty: "Medium • Indian FY (Apr-Mar)",
+        title: "7. Indian Financial Year (Apr–Mar) Quarterly YoY & QoQ Summary",
+        prompt: "Given daily `sales_df` (`invoice_date`, `net_sales`), assign every row to its Indian Financial Year (`FY2025-26`) and Indian Fiscal Quarter (`FQ1` = Apr–Jun ... `FQ4` = Jan–Mar). Aggregate total sales by `(indian_fy, indian_fq)` and compute `qoq_growth_pct` and `yoy_same_qtr_growth_pct`.",
+        schema: `sales_df = pd.DataFrame({
+    'invoice_date': pd.to_datetime([...]),
+    'net_sales': [...]
+})`,
+        hint: "Shift `invoice_date` back by 3 months (`df['invoice_date'] - pd.DateOffset(months=3)`). Group by `fy_start` and `fq_num`, sort chronologically, and use `.pct_change(1)` for QoQ and `.pct_change(4)` for YoY!",
+        solution: `import pandas as pd
+
+def indian_fy_summary(sales_df: pd.DataFrame) -> pd.DataFrame:
+    df = sales_df.copy()
+    shifted = df['invoice_date'] - pd.DateOffset(months=3)
+    
+    df['fy_start']  = shifted.dt.year
+    df['fq_num']    = shifted.dt.quarter
+    df['indian_fy'] = 'FY' + df['fy_start'].astype(str) + '-' + (df['fy_start'] + 1).astype(str).str[-2:]
+    df['indian_fq'] = 'FQ' + df['fq_num'].astype(str)
+    
+    qtr = (
+        df.groupby(['fy_start', 'fq_num', 'indian_fy', 'indian_fq'], as_index=False)['net_sales']
+        .sum()
+        .sort_values(['fy_start', 'fq_num'])
+    )
+    
+    qtr['qoq_growth_pct'] = (qtr['net_sales'].pct_change(1) * 100).round(2)
+    qtr['yoy_same_qtr_growth_pct'] = (qtr['net_sales'].pct_change(4) * 100).round(2)
+    return qtr.drop(columns=['fy_start', 'fq_num'])`
+      },
+      {
+        id: "py_p8",
+        company: "Product / Clickstream",
+        difficulty: "Hard • 30-Min Sessionization",
+        title: "8. Vectorized 30-Minute User Clickstream Sessionization",
+        prompt: "Given `events_df` (`user_id`, `event_time`, `event_name`), group consecutive events per user into sessions. A new session starts whenever the user has been inactive for > 30 minutes since their previous event. Compute `session_id`, `session_start`, `session_end`, `duration_sec`, and `event_count`.",
+        schema: `events_df = pd.DataFrame({
+    'user_id': [...],
+    'event_time': pd.to_datetime([...]),
+    'event_name': [...]
+})`,
+        hint: "Sort by `['user_id', 'event_time']`. Compute `gap_min = df.groupby('user_id')['event_time'].diff().dt.total_seconds() / 60.0`. Flag `is_new = (gap_min.isna()) | (gap_min > 30)`, and run `df.groupby('user_id')['is_new'].cumsum()`.",
+        solution: `import pandas as pd
+
+def sessionize_clickstream(events_df: pd.DataFrame) -> pd.DataFrame:
+    df = events_df.sort_values(['user_id', 'event_time']).copy()
+    
+    gap_minutes = df.groupby('user_id')['event_time'].diff().dt.total_seconds() / 60.0
+    df['is_new_session'] = gap_minutes.isna() | (gap_minutes > 30.0)
+    df['session_seq']    = df.groupby('user_id')['is_new_session'].cumsum()
+    df['session_id']     = df['user_id'].astype(str) + '_S' + df['session_seq'].astype(str)
+    
+    sessions = (
+        df.groupby(['user_id', 'session_id'], as_index=False)
+        .agg(
+            session_start=('event_time', 'min'),
+            session_end=('event_time', 'max'),
+            event_count=('event_time', 'count')
+        )
+    )
+    sessions['duration_sec'] = (sessions['session_end'] - sessions['session_start']).dt.total_seconds()
+    return sessions`
+      },
+      {
+        id: "py_p9",
+        company: "Marketing / E-Commerce",
+        difficulty: "Medium-Hard • Pareto 80/20",
+        title: "9. Pareto 80/20 SKU Analysis + Group-Median Missing Imputation",
+        prompt: "In `sku_df` (`sku_id`, `category`, `units_sold`, `unit_price`), some `unit_price` values are `NaN`. First, impute missing `unit_price` using the median price of that `category`. Then compute `revenue = units_sold * unit_price` and isolate the top SKUs that cumulatively drive up to 80% of total revenue.",
+        schema: `sku_df = pd.DataFrame({
+    'sku_id': [...], 'category': [...],
+    'units_sold': [...], 'unit_price': [199.0, np.nan, ...]
+})`,
+        hint: "Impute with `df['unit_price'].fillna(df.groupby('category')['unit_price'].transform('median'))`. Aggregate revenue per `sku_id`, sort descending, and compute `.cumsum() / total_rev`.",
+        solution: `import pandas as pd
+
+def pareto_top_skus(sku_df: pd.DataFrame) -> pd.DataFrame:
+    df = sku_df.copy()
+    
+    # 1. Group-aware median imputation
+    df['unit_price'] = df['unit_price'].fillna(
+        df.groupby('category')['unit_price'].transform('median')
+    )
+    df['revenue'] = df['units_sold'] * df['unit_price']
+    
+    # 2. Cumulative Pareto 80% calculation
+    sku_rev = (
+        df.groupby('sku_id', as_index=False)['revenue']
+        .sum()
+        .sort_values('revenue', ascending=False)
+    )
+    total_rev = sku_rev['revenue'].sum()
+    sku_rev['cum_revenue'] = sku_rev['revenue'].cumsum()
+    sku_rev['cum_share_pct'] = (100.0 * sku_rev['cum_revenue'] / total_rev).round(2)
+    
+    # Keep all SKUs before crossing the 80% threshold (plus the threshold-crossing SKU)
+    sku_rev['prev_cum_share'] = sku_rev['cum_share_pct'].shift(1, fill_value=0.0)
+    return sku_rev[sku_rev['prev_cum_share'] < 80.0].drop(columns=['prev_cum_share'])`
+      },
+      {
+        id: "py_p10",
+        company: "HR & Workforce Analytics",
+        difficulty: "Hard • Interval / As-Of Join",
+        title: "10. Point-in-Time Historical Department Lookup (`merge_asof`)",
+        prompt: "Employees change departments over time (`dept_history_df`: `emp_id`, `dept_name`, `effective_date`). You have a table of bonus payouts (`bonus_df`: `emp_id`, `payout_date`, `bonus_amt`). Use Pandas' ultra-fast `pd.merge_asof()` to attribute every bonus to the exact department the employee belonged to on `payout_date`.",
+        schema: `dept_history_df = pd.DataFrame({'emp_id': [...], 'dept_name': [...], 'effective_date': pd.to_datetime([...])})
+bonus_df        = pd.DataFrame({'emp_id': [...], 'payout_date': pd.to_datetime([...]), 'bonus_amt': [...]})`,
+        hint: "`pd.merge_asof()` requires both DataFrames to be sorted by the date key (`payout_date` and `effective_date`). Pass `by='emp_id'`, `left_on='payout_date'`, `right_on='effective_date'`, and `direction='backward'`!",
+        solution: `import pandas as pd
+
+def attribute_historical_dept(bonus_df: pd.DataFrame, dept_history_df: pd.DataFrame) -> pd.DataFrame:
+    # merge_asof requires both DataFrames sorted by the timestamp key!
+    left_sorted  = bonus_df.sort_values('payout_date')
+    right_sorted = dept_history_df.sort_values('effective_date')
+    
+    attributed = pd.merge_asof(
+        left_sorted,
+        right_sorted,
+        by='emp_id',
+        left_on='payout_date',
+        right_on='effective_date',
+        direction='backward'  # Matches latest effective_date <= payout_date
+    )
+    return attributed.sort_values(['emp_id', 'payout_date'])`
+      },
+      {
+        id: "py_p11",
+        company: "API / JSON Ingestion",
+        difficulty: "Medium • Explode & Normalize",
+        title: "11. Flattening Nested E-Commerce Cart JSON Payloads",
+        prompt: "An order webhook returns nested JSON records where each order contains a list of `items` (`[{'sku': 'A1', 'qty': 2, 'price': 500}, ...]`). Flatten the payload into a clean item-level DataFrame containing `order_id`, `customer_city`, `sku`, `qty`, `price`, and `line_total` without writing `for` loops.",
+        schema: `payload = [
+    {'order_id': 101, 'customer': {'city': 'Kochi'}, 'items': [{'sku': 'S1', 'qty': 2, 'price': 400}, {'sku': 'S2', 'qty': 1, 'price': 900}]},
+    ...
+]`,
+        hint: "Use `pd.json_normalize(payload, record_path='items', meta=['order_id', ['customer', 'city']])` to flatten nested lists and parent metadata in a single C-optimized call!",
+        solution: `import pandas as pd
+
+def flatten_order_payloads(payload: list) -> pd.DataFrame:
+    df = pd.json_normalize(
+        payload,
+        record_path='items',
+        meta=['order_id', ['customer', 'city']]
+    )
+    df = df.rename(columns={'customer.city': 'customer_city'})
+    df['line_total'] = df['qty'] * df['price']
+    return df[['order_id', 'customer_city', 'sku', 'qty', 'price', 'line_total']]`
+      },
+      {
+        id: "py_p12",
+        company: "Product GCC / Performance",
+        difficulty: "Top 1% • Vectorization Refactor",
+        title: "12. Refactoring a Slow `.iterrows()` Script to Run 300x Faster",
+        prompt: "An analyst wrote the slow code below on a 2-million-row DataFrame (takes 95 seconds). Rewrite it into a 100% vectorized Top 1% Pandas solution that runs in <0.2 seconds:\n\n`results = []\nfor idx, row in df.iterrows():\n    if row['category'] == 'Electronics' and row['return_flag'] == False:\n        commission = row['amount'] * 0.08\n    elif row['category'] == 'Apparel' and row['return_flag'] == False:\n        commission = row['amount'] * 0.12\n    else:\n        commission = 0.0\n    results.append(commission)\ndf['commission'] = results`",
+        schema: `df = pd.DataFrame({
+    'order_id': [...], 'category': ['Electronics', 'Apparel', 'Groceries', ...],
+    'amount': [...], 'return_flag': [False, True, ...]
+})`,
+        hint: "Use `np.select()` with bitwise `&` and `~df['return_flag']` (or map a commission rate dictionary `{'Electronics': 0.08, 'Apparel': 0.12}` and multiply by `~df['return_flag']`).",
+        solution: `import numpy as np
+import pandas as pd
+
+def compute_commission_vectorized(df: pd.DataFrame) -> pd.DataFrame:
+    # Option 1: Ultra-clean dictionary map + boolean multiplication
+    rate_map = {'Electronics': 0.08, 'Apparel': 0.12}
+    rates = df['category'].map(rate_map).fillna(0.0)
+    
+    # (~df['return_flag']) evaluates to 1 for False and 0 for True
+    df['commission'] = df['amount'] * rates * (~df['return_flag'])
+    return df`
+      }
+    ];
+
+    // =========================================================================
+    // 3. PRODUCTION ETL, SQLALCHEMY & POWER BI AUTOMATION VAULT
+    // =========================================================================
+    const VAULT_SNIPPETS = [
+      {
+        category: "Automated ETL • SQLAlchemy + Redshift / SQL Server",
+        title: "Idempotent Incremental Database Extraction, Reconciliation & Upsert",
+        desc: "How to extract incremental rows using parameterized SQL, transform & validate in Pandas, and load into a staging table inside an atomic transaction.",
+        code: `import os
+import pandas as pd
+from sqlalchemy import create_engine, text
+
+def run_daily_sales_etl(start_date: str, end_date: str):
+    # 1. Create engine from environment variable (never hardcode passwords)
+    db_url = os.getenv("BI_WAREHOUSE_CONN_STR")
+    engine = create_engine(db_url, pool_pre_ping=True)
+    
+    # 2. Parameterized Sargable SQL extraction
+    extract_sql = text("""
+        SELECT invoice_id, customer_id, invoice_date, gross_amt, discount_amt, tax_amt
+        FROM erp_prod.sales_invoices
+        WHERE invoice_date >= :start_dt AND invoice_date < :end_dt
+    """)
+    
+    with engine.connect() as conn:
+        df = pd.read_sql(extract_sql, conn, params={"start_dt": start_date, "end_dt": end_date})
+    
+    if df.empty:
+        print(f"No records found for window {start_date} -> {end_date}")
+        return
+    
+    # 3. Vectorized transformation & Primary Key deduplication
+    df = df.sort_values("invoice_date").drop_duplicates(subset=["invoice_id"], keep="last").copy()
+    df["net_amt"] = (df["gross_amt"] - df["discount_amt"].fillna(0.0)) + df["tax_amt"].fillna(0.0)
+    
+    # 4. Automated Reconciliation Gate before touching target table
+    assert df["invoice_id"].is_unique, "CRITICAL: Duplicate Invoice IDs detected!"
+    assert df["net_amt"].isna().sum() == 0, "CRITICAL: Null net_amt detected!"
+    
+    # 5. Atomic Delete + Insert into Staging/Fact table
+    with engine.begin() as tx:
+        tx.execute(
+            text("DELETE FROM bi_mart.fact_sales WHERE invoice_date >= :start_dt AND invoice_date < :end_dt"),
+            {"start_dt": start_date, "end_dt": end_date}
+        )
+        df.to_sql(
+            name="fact_sales",
+            con=tx,
+            schema="bi_mart",
+            if_exists="append",
+            index=False,
+            method="multi",
+            chunksize=5000
+        )
+    print(f"Successfully loaded {len(df):,} reconciled rows.")`
+      },
+      {
+        category: "Power BI Service Automation • REST API Trigger",
+        title: "Triggering a Power BI Semantic Model Refresh from Python Post-ETL",
+        desc: "Instead of relying on blind time-based schedules (where Power BI might refresh before your SQL/Python ETL finishes), trigger the Power BI refresh directly from Python once reconciliation passes.",
+        code: `import os
+import requests
+
+def trigger_powerbi_dataset_refresh(workspace_id: str, dataset_id: str):
+    tenant_id     = os.getenv("AZURE_TENANT_ID")
+    client_id     = os.getenv("PBI_CLIENT_ID")
+    client_secret = os.getenv("PBI_CLIENT_SECRET")
+    
+    # 1. Acquire Azure AD OAuth2 Bearer Token for Power BI Service
+    token_url = f"https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/token"
+    token_resp = requests.post(token_url, data={
+        "grant_type": "client_credentials",
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "scope": "https://analysis.windows.net/powerbi/api/.default"
+    }, timeout=30)
+    token_resp.raise_for_status()
+    access_token = token_resp.json()["access_token"]
+    
+    # 2. Trigger Semantic Model Refresh via REST API
+    refresh_url = f"https://api.powerbi.com/v1.0/myorg/groups/{workspace_id}/datasets/{dataset_id}/refreshes"
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+    payload = {"notifyOption": "MailOnFailure"}
+    
+    resp = requests.post(refresh_url, headers=headers, json=payload, timeout=30)
+    if resp.status_code == 202:
+        print("Power BI Semantic Model refresh triggered successfully (HTTP 202 Accepted).")
+    else:
+        raise RuntimeError(f"Power BI Refresh failed: {resp.status_code} - {resp.text}")`
+      },
+      {
+        category: "Big Data Memory Optimization • 80% RAM Reduction",
+        title: "Automatic DataFrame Memory Downcaster (Strings, Ints & Floats)",
+        desc: "Drop this helper function into any interview or production script to shrink a multi-gigabyte DataFrame by 65%–80% before running heavy joins.",
+        code: `import pandas as pd
+import numpy as np
+
+def optimize_dataframe_memory(df: pd.DataFrame, cat_threshold: float = 0.25) -> pd.DataFrame:
+    start_mb = df.memory_usage(deep=True).sum() / (1024 ** 2)
+    
+    for col in df.columns:
+        col_type = df[col].dtype
+        
+        if col_type == 'object':
+            # Convert low-cardinality string columns (<25% unique values) to Category
+            num_unique = df[col].nunique(dropna=False)
+            if num_unique / len(df) < cat_threshold:
+                df[col] = df[col].astype('category')
+        elif pd.api.types.is_integer_dtype(col_type):
+            df[col] = pd.to_numeric(df[col], downcast='integer')
+        elif pd.api.types.is_float_dtype(col_type):
+            df[col] = pd.to_numeric(df[col], downcast='float')
+            
+    end_mb = df.memory_usage(deep=True).sum() / (1024 ** 2)
+    print(f"Memory reduced from {start_mb:.2f} MB to {end_mb:.2f} MB ({100*(start_mb-end_mb)/start_mb:.1f}% saved)")
+    return df`
+      },
+      {
+        category: "Executive Excel Automation • OpenPyXL / XlsxWriter",
+        title: "Multi-Tab Regional Excel Exporter with Auto-Width & INR Formatting",
+        desc: "Automates monthly stakeholder Excel packs: writes an Executive Summary tab plus individual regional tabs with clean column widths.",
+        code: `import pandas as pd
+
+def export_regional_excel_pack(df: pd.DataFrame, output_path: str = "FY26_Regional_Pack.xlsx"):
+    summary_df = (
+        df.groupby("region", as_index=False)
+        .agg(
+            total_orders=("order_id", "nunique"),
+            gross_sales=("gross_amt", "sum"),
+            net_sales=("net_amt", "sum")
+        )
+        .sort_values("net_sales", ascending=False)
+    )
+    
+    with pd.ExcelWriter(output_path, engine="openpyxl") as writer:
+        # 1. Write Executive Summary Tab
+        summary_df.to_excel(writer, sheet_name="Executive_Summary", index=False)
+        
+        # 2. Write Dedicated Tab per Region
+        for region_name, region_df in df.groupby("region"):
+            safe_sheet = str(region_name)[:31]  # Excel 31-char sheet name limit
+            region_df.to_excel(writer, sheet_name=safe_sheet, index=False)
+            
+        # 3. Auto-adjust column widths across all sheets
+        for sheet_name, worksheet in writer.sheets.items():
+            for col in worksheet.columns:
+                max_len = max(len(str(cell.value or "")) for cell in col)
+                col_letter = col[0].column_letter
+                worksheet.column_dimensions[col_letter].width = max(max_len + 4, 12)`
+      }
+    ];
+
+    // =========================================================================
+    // 4. TOP 1% SCORECARD (10 PILLARS) & 4-WEEK PLAN
+    // =========================================================================
+    const PYTHON_SCORECARD = [
+      { id: "py_sc1", name: "1. Core Python Memory & Complexity", desc: "Explain Mutable vs Immutable, Shallow vs Deep Copy, Mutable Default Arguments, and use Set/Dict O(1) lookups instead of O(n) list scans." },
+      { id: "py_sc2", name: "2. Vectorization (`np.where` & `np.select`)", desc: "Write complex multi-condition business rules using `np.select()` and boolean masks with zero `.iterrows()` or `.apply(axis=1)` calls." },
+      { id: "py_sc3", name: "3. Indexing & Copy-on-Write Safety", desc: "Distinguish `.loc` vs `.iloc` on non-sequential indexes, handle Series index alignment (`.add(fill_value=0)`), and eliminate `SettingWithCopyWarning`." },
+      { id: "py_sc4", name: "4. SQL Windows in Pandas (`transform` & `rank`)", desc: "Translate any SQL window function (`SUM() OVER`, `DENSE_RANK() OVER`, `LAG/LEAD`) into 1-line Pandas `.groupby().transform()`, `.rank()`, and `.shift()`." },
+      { id: "py_sc5", name: "5. Safe Relational Joins & Recon (`validate`)", desc: "Perform 2-way GST/Financial reconciliations using `pd.merge(indicator=True, validate='1:1')` and `pd.merge_asof()` for point-in-time joins." },
+      { id: "py_sc6", name: "6. Indian Regex (GSTIN/PAN/INR) & FY (Apr–Mar)", desc: "Clean messy Indian currency strings, validate 15-digit GSTINs via Regex, and compute Indian Apr–Mar Fiscal Year YoY/QoQ metrics." },
+      { id: "py_sc7", name: "7. Group-Aware Imputation & Statistical Tests", desc: "Impute missing values using `.groupby().transform('median')`, cap outliers via IQR/percentiles, and choose between `ttest_ind`, `mannwhitneyu`, and `chi2_contingency`." },
+      { id: "py_sc8", name: "8. Big Data Scaling (Chunking, Categoricals & Parquet)", desc: "Process 15GB+ files on an 8GB machine using `chunksize`, reduce DataFrame RAM by 75% via `category`/downcasting, and leverage Parquet." },
+      { id: "py_sc9", name: "9. Production ETL (SQLAlchemy & Power BI API)", desc: "Build idempotent SQLAlchemy database pipelines with pre-load assertion gates and trigger Power BI dataset refreshes via REST API." },
+      { id: "py_sc10", name: "10. Live 45-Minute Timed Coding Screen", desc: "Solve 4 unseen medium-hard Indian Pandas & Core Python problems in 45 minutes without syntax hints." }
+    ];
+
+    const FOUR_WEEK_PLAN = [
+      { week: 1, title: "Core Python Internals, Complexity & NumPy Vectorization", modules: "Modules 1, 2 & 3", goal: "Master O(1) set/dict lookups, generators, shallow/deep copy, and `np.select()` vectorization.", target: "Solve Arena Problems #11 & #12" },
+      { week: 2, title: "Pandas 2.0 Architecture, GroupBy Transform & SQL Windows", modules: "Modules 4 & 5", goal: "Master `.loc`/`.iloc`, `groupby().transform()`, `rank(method='dense')`, `merge(validate=...)`, and `merge_asof`.", target: "Solve Arena Problems #1, #2, #3, #4, #10" },
+      { week: 3, title: "Indian Business Wrangling (GSTIN Regex, FY Apr–Mar, Cohorts & Stats)", modules: "Modules 6 & 7", goal: "Clean Indian currency/GSTIN strings, build Apr–Mar FY tables, cohort matrices, and group-median imputation.", target: "Solve Arena Problems #5, #6, #7, #8, #9" },
+      { week: 4, title: "Big Data Memory Scaling, SQLAlchemy ETL & Power BI Automation", modules: "Modules 8, 9 & 10", goal: "Master `chunksize`, RAM downcasting, idempotent SQLAlchemy loads, Power BI REST API triggers, and timed mocks.", target: "Pass all 10/10 Readiness Scorecard Gates" }
+    ];
+
+    // =========================================================================
+    // 5. STATE MANAGEMENT (LOCALSTORAGE)
+    // =========================================================================
+    const STORAGE_KEY = "rihas_python_top1_mastery_v1";
+    let appState = {
+      checkedItems: {},      // { "py_m1_learn_0": true, "py_m1_scen_0": true, "py_m1_test": true, "py_week_1": true }
+      arenaSolved: {},       // { "py_p1": true, ... }
+      arenaCode: {},         // { "py_p1": "import pandas as pd...", ... }
+      scorecard: {},         // { "py_sc1": true, ... }
+      moduleNotes: {},       // { "py_m1": "..." }
+      activePhase: "all",
+      activeProblemId: "py_p1"
+    };
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          appState = { ...appState, ...JSON.parse(raw) };
+        }
+      } catch (e) {
+        console.warn("localStorage read error", e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.warn("localStorage save error", e);
+      }
+      updateGlobalStats();
+    }
+
+    function toggleCheck(key) {
+      appState.checkedItems[key] = !appState.checkedItems[key];
+      saveState();
+      renderSyllabus();
+      renderRoadmap();
+    }
+
+    function toggleArenaSolved(probId) {
+      appState.arenaSolved[probId] = !appState.arenaSolved[probId];
+      saveState();
+      renderArena();
+    }
+
+    function saveArenaDraft(probId, val) {
+      appState.arenaCode[probId] = val;
+      saveState();
+    }
+
+    function toggleScorecard(id) {
+      appState.scorecard[id] = !appState.scorecard[id];
+      saveState();
+      renderScorecard();
+    }
+
+    function saveModuleNote(modId, val) {
+      appState.moduleNotes[modId] = val;
+      saveState();
+    }
+
+    // =========================================================================
+    // 6. UI RENDER ENGINE
+    // =========================================================================
+    function updateGlobalStats() {
+      let totalLearn = 0, doneLearn = 0;
+      let totalScen = 0, doneScen = 0;
+      let totalGates = PYTHON_MODULES.length, doneGates = 0;
+
+      PYTHON_MODULES.forEach(m => {
+        m.learn.forEach((_, i) => {
+          totalLearn++;
+          if (appState.checkedItems[`${m.id}_learn_${i}`]) doneLearn++;
+        });
+        m.scenarios.forEach((_, i) => {
+          totalScen++;
+          if (appState.checkedItems[`${m.id}_scen_${i}`]) doneScen++;
+        });
+        if (appState.checkedItems[`${m.id}_test`]) doneGates++;
+      });
+
+      const arenaDone = ARENA_PROBLEMS.filter(p => appState.arenaSolved[p.id]).length;
+      const totalAll = totalLearn + totalScen + totalGates + ARENA_PROBLEMS.length;
+      const doneAll = doneLearn + doneScen + doneGates + arenaDone;
+      const pct = totalAll > 0 ? Math.round((doneAll / totalAll) * 100) : 0;
+
+      document.getElementById("global-progress-text").textContent = `${pct}%`;
+      document.getElementById("global-progress-bar").style.width = `${pct}%`;
+      document.getElementById("stat-concepts").textContent = `${doneLearn} / ${totalLearn}`;
+      document.getElementById("stat-scenarios").textContent = `${doneScen} / ${totalScen}`;
+      document.getElementById("stat-arena").textContent = `${arenaDone} / ${ARENA_PROBLEMS.length}`;
+      document.getElementById("stat-gates").textContent = `${doneGates} / ${totalGates}`;
+
+      const scCount = PYTHON_SCORECARD.filter(s => appState.scorecard[s.id]).length;
+      document.getElementById("scorecard-badge").textContent = `${scCount}/10`;
+    }
+
+    function renderSyllabus() {
+      const container = document.getElementById("syllabus-container");
+      const query = (document.getElementById("module-search")?.value || "").toLowerCase().trim();
+
+      const filtered = PYTHON_MODULES.filter(m => {
+        if (appState.activePhase !== "all" && m.phase !== appState.activePhase) return false;
+        if (!query) return true;
+        const text = [m.title, m.phaseName, ...m.learn, ...m.scenarios, m.masteryTest, m.blueprint].join(" ").toLowerCase();
+        return text.includes(query);
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="glass-panel p-8 rounded-2xl text-center text-slate-400">No Python modules match your filter.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(m => {
+        const lTotal = m.learn.length;
+        const lDone = m.learn.filter((_, i) => appState.checkedItems[`${m.id}_learn_${i}`]).length;
+        const sTotal = m.scenarios.length;
+        const sDone = m.scenarios.filter((_, i) => appState.checkedItems[`${m.id}_scen_${i}`]).length;
+        const tDone = !!appState.checkedItems[`${m.id}_test`];
+
+        const modTotal = lTotal + sTotal + 1;
+        const modDone = lDone + sDone + (tDone ? 1 : 0);
+        const modPct = Math.round((modDone / modTotal) * 100);
+
+        return `
+          <div class="glass-panel rounded-2xl border ${tDone ? 'border-emerald-500/40' : 'border-slate-800'} overflow-hidden transition">
+            <!-- Header -->
+            <div class="p-5 sm:p-6 bg-slate-900/70 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                  <span class="text-xs font-mono font-bold uppercase px-2 py-0.5 rounded bg-slate-800 text-py-yellow">Module ${m.num}</span>
+                  <span class="text-xs text-slate-400 font-medium">${escapeHtml(m.phaseName)}</span>
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-500/15 text-sky-300 border border-sky-500/30">Priority: ${escapeHtml(m.priority)}</span>
+                  ${tDone ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">✓ Gate Passed</span>` : ''}
+                </div>
+                <h3 class="text-lg sm:text-xl font-bold text-white">${escapeHtml(m.title)}</h3>
+              </div>
+
+              <div class="flex items-center gap-4 shrink-0">
+                <div class="text-right">
+                  <div class="text-xs text-slate-400">Module Mastery</div>
+                  <div class="text-sm font-mono font-bold ${modPct === 100 ? 'text-emerald-400' : 'text-py-yellow'}">${modDone}/${modTotal} (${modPct}%)</div>
+                </div>
+                <div class="w-24 h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div class="h-full ${modPct === 100 ? 'bg-emerald-400' : 'bg-py-yellow'} transition-all" style="width: ${modPct}%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <!-- Left 7 Cols: Deep Concepts -->
+              <div class="lg:col-span-7 space-y-3">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Top 1% Concepts & Vectorized Mechanics (${lDone}/${lTotal})</h4>
+                <div class="space-y-2">
+                  ${m.learn.map((item, idx) => {
+                    const key = `${m.id}_learn_${idx}`;
+                    const checked = appState.checkedItems[key] ? "checked" : "";
+                    return `
+                      <label class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/50 hover:bg-slate-900 border border-slate-800/80 cursor-pointer transition">
+                        <input type="checkbox" onchange="toggleCheck('${key}')" ${checked} class="custom-checkbox mt-0.5 w-4 h-4 rounded accent-amber-400 shrink-0">
+                        <span class="text-sm text-slate-200 leading-snug">${escapeHtml(item)}</span>
+                      </label>
+                    `;
+                  }).join("")}
+                </div>
+              </div>
+
+              <!-- Right 5 Cols: Indian Scenarios + Blueprint + Gate -->
+              <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-400">🇮🇳 Indian Interview Scenarios (${sDone}/${sTotal})</h4>
+                  <div class="space-y-2">
+                    ${m.scenarios.map((scen, idx) => {
+                      const key = `${m.id}_scen_${idx}`;
+                      const checked = appState.checkedItems[key] ? "checked" : "";
+                      return `
+                        <label class="flex items-start gap-3 p-3 rounded-xl bg-emerald-950/20 hover:bg-emerald-950/30 border border-emerald-500/20 cursor-pointer transition">
+                          <input type="checkbox" onchange="toggleCheck('${key}')" ${checked} class="custom-checkbox mt-0.5 w-4 h-4 rounded accent-emerald-400 shrink-0">
+                          <span class="text-xs sm:text-sm text-slate-200 leading-snug">${escapeHtml(scen)}</span>
+                        </label>
+                      `;
+                    }).join("")}
+                  </div>
+
+                  <details class="group bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden">
+                    <summary class="px-4 py-2.5 text-xs font-semibold text-py-yellow cursor-pointer flex items-center justify-between hover:bg-slate-800/60">
+                      <span>💡 View Senior Python Blueprint & Code Pattern</span>
+                      <span class="group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <div class="p-4 border-t border-slate-800 text-xs text-slate-300 font-mono whitespace-pre-line leading-relaxed bg-black/40">${escapeHtml(m.blueprint)}</div>
+                  </details>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                  <div class="p-4 rounded-xl ${tDone ? 'bg-emerald-500/10 border border-emerald-500/40' : 'bg-amber-400/10 border border-amber-400/30'}">
+                    <div class="text-xs font-bold uppercase tracking-wider ${tDone ? 'text-emerald-300' : 'text-py-yellow'} mb-1">🏆 Module ${m.num} Mastery Gate</div>
+                    <p class="text-xs text-slate-200 leading-relaxed mb-3">${escapeHtml(m.masteryTest)}</p>
+                    <label class="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-lg ${tDone ? 'bg-emerald-400 text-black' : 'bg-slate-900 text-white border border-slate-700'} text-xs font-bold cursor-pointer transition">
+                      <input type="checkbox" onchange="toggleCheck('${m.id}_test')" ${tDone ? 'checked' : ''} class="w-4 h-4 accent-black">
+                      <span>${tDone ? 'Mastery Gate Verified!' : 'Mark Mastery Test Complete'}</span>
+                    </label>
+                  </div>
+
+                  <textarea
+                    rows="2"
+                    oninput="saveModuleNote('${m.id}', this.value)"
+                    placeholder="Personal Python/Pandas notes for Module ${m.num}..."
+                    class="w-full bg-slate-900/90 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-py-yellow font-mono"
+                  >${escapeHtml(appState.moduleNotes[m.id] || '')}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function filterPhase(phase) {
+      appState.activePhase = phase;
+      document.querySelectorAll(".phase-btn").forEach(btn => {
+        btn.className = "phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+      });
+      const activeBtn = document.getElementById(`phase-btn-${phase}`);
+      if (activeBtn) {
+        activeBtn.className = "phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-py-yellow text-black transition";
+      }
+      renderSyllabus();
+    }
+
+    function selectArenaProblem(probId) {
+      appState.activeProblemId = probId;
+      renderArena();
+    }
+
+    function renderArena() {
+      const listContainer = document.getElementById("arena-list-container");
+      const workContainer = document.getElementById("arena-workspace-container");
+
+      listContainer.innerHTML = ARENA_PROBLEMS.map(p => {
+        const isCurrent = p.id === appState.activeProblemId;
+        const isSolved = !!appState.arenaSolved[p.id];
+        return `
+          <div onclick="selectArenaProblem('${p.id}')" class="p-3.5 rounded-xl border cursor-pointer transition ${isCurrent ? 'bg-sky-950/40 border-py-yellow' : 'glass-panel border-slate-800 hover:border-slate-700'}">
+            <div class="flex items-center justify-between gap-2 mb-1">
+              <span class="text-[11px] font-mono font-semibold text-sky-300">${escapeHtml(p.company)}</span>
+              <span class="text-[11px] px-2 py-0.5 rounded font-semibold ${isSolved ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400'}">
+                ${isSolved ? '✓ Solved' : p.difficulty}
+              </span>
+            </div>
+            <h4 class="text-xs sm:text-sm font-bold text-white leading-snug">${escapeHtml(p.title)}</h4>
+          </div>
+        `;
+      }).join("");
+
+      const activeProb = ARENA_PROBLEMS.find(p => p.id === appState.activeProblemId) || ARENA_PROBLEMS[0];
+      const solved = !!appState.arenaSolved[activeProb.id];
+      const savedDraft = appState.arenaCode[activeProb.id] || `import pandas as pd\nimport numpy as np\n\n# Write your 100% vectorized solution for: ${activeProb.title}\n# Zero .iterrows() allowed!\n\ndef solve(df: pd.DataFrame) -> pd.DataFrame:\n    pass`;
+
+      workContainer.innerHTML = `
+        <div class="glass-panel rounded-2xl border border-slate-800 p-6 space-y-5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-300 font-mono text-xs font-bold">${escapeHtml(activeProb.company)}</span>
+                <span class="text-xs text-py-yellow font-semibold">${escapeHtml(activeProb.difficulty)}</span>
+              </div>
+              <h3 class="text-lg sm:text-xl font-bold text-white">${escapeHtml(activeProb.title)}</h3>
+            </div>
+            <label class="inline-flex items-center gap-2 px-4 py-2 rounded-xl ${solved ? 'bg-emerald-400 text-black' : 'bg-slate-800 text-slate-200 border border-slate-700'} text-xs font-bold cursor-pointer shrink-0 transition">
+              <input type="checkbox" onchange="toggleArenaSolved('${activeProb.id}')" ${solved ? 'checked' : ''} class="w-4 h-4 accent-black">
+              <span>${solved ? 'Solved Without Notes!' : 'Mark as Solved'}</span>
+            </label>
+          </div>
+
+          <!-- Prompt & DataFrame Schema -->
+          <div class="space-y-3">
+            <p class="text-sm text-slate-200 leading-relaxed whitespace-pre-line">${escapeHtml(activeProb.prompt)}</p>
+            <div class="p-3.5 rounded-xl bg-black/50 border border-slate-800 font-mono text-xs text-sky-300 whitespace-pre-line">${escapeHtml(activeProb.schema)}</div>
+          </div>
+
+          <!-- Live Python Scratchpad -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold uppercase tracking-wider text-slate-400">Your Vectorized Python / Pandas Scratchpad (Auto-Saved)</label>
+              <span class="text-[11px] text-slate-500">Practice writing clean method chains</span>
+            </div>
+            <textarea
+              rows="10"
+              oninput="saveArenaDraft('${activeProb.id}', this.value)"
+              class="w-full bg-black/70 border border-slate-700 rounded-xl p-4 font-mono text-xs sm:text-sm text-amber-100 focus:outline-none focus:border-py-yellow leading-relaxed"
+            >${escapeHtml(savedDraft)}</textarea>
+          </div>
+
+          <!-- Hint & Official Solution Accordions -->
+          <div class="space-y-3 pt-1">
+            <details class="group bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden">
+              <summary class="px-4 py-2.5 text-xs font-semibold text-py-yellow cursor-pointer flex items-center justify-between hover:bg-slate-800/60">
+                <span>🧭 View Vectorization Hint & Edge-Case Checklist</span>
+                <span class="group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="p-4 border-t border-slate-800 text-xs text-slate-300 leading-relaxed">${escapeHtml(activeProb.hint)}</div>
+            </details>
+
+            <details class="group bg-slate-900/90 border border-emerald-500/30 rounded-xl overflow-hidden">
+              <summary class="px-4 py-2.5 text-xs font-semibold text-emerald-400 cursor-pointer flex items-center justify-between hover:bg-slate-800/60">
+                <span>✅ Reveal Top 1% Vectorized Python Solution</span>
+                <span class="group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="p-4 border-t border-slate-800 bg-black/70 relative">
+                <button onclick="copyArenaSolution('${activeProb.id}')" id="arena-copy-${activeProb.id}" class="absolute right-4 top-4 text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium">
+                  📋 Copy Code
+                </button>
+                <pre class="text-xs font-mono text-emerald-200 overflow-x-auto leading-relaxed pr-24"><code>${escapeHtml(activeProb.solution)}</code></pre>
+              </div>
+            </details>
+          </div>
+        </div>
+      `;
+    }
+
+    function copyArenaSolution(probId) {
+      const prob = ARENA_PROBLEMS.find(p => p.id === probId);
+      if (!prob) return;
+      navigator.clipboard.writeText(prob.solution);
+      const btn = document.getElementById(`arena-copy-${probId}`);
+      if (btn) {
+        btn.textContent = "✓ Copied!";
+        setTimeout(() => { btn.textContent = "📋 Copy Code"; }, 1800);
+      }
+    }
+
+    function renderVault() {
+      const container = document.getElementById("vault-container");
+      container.innerHTML = VAULT_SNIPPETS.map((item, idx) => `
+        <div class="glass-panel rounded-2xl border border-slate-800 flex flex-col justify-between overflow-hidden">
+          <div class="p-5 border-b border-slate-800">
+            <div class="flex items-center justify-between gap-2 mb-1">
+              <span class="text-xs font-mono font-semibold text-py-yellow">${escapeHtml(item.category)}</span>
+              <button onclick="copyVaultCode(${idx})" id="vault-copy-${idx}" class="text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition">
+                📋 Copy Script
+              </button>
+            </div>
+            <h3 class="text-base font-bold text-white">${escapeHtml(item.title)}</h3>
+            <p class="text-xs text-slate-400 mt-1">${escapeHtml(item.desc)}</p>
+          </div>
+          <pre class="p-4 bg-black/60 text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed flex-1"><code>${escapeHtml(item.code)}</code></pre>
+        </div>
+      `).join("");
+    }
+
+    function copyVaultCode(idx) {
+      navigator.clipboard.writeText(VAULT_SNIPPETS[idx].code);
+      const btn = document.getElementById(`vault-copy-${idx}`);
+      btn.textContent = "✓ Copied!";
+      btn.classList.add("text-emerald-400");
+      setTimeout(() => {
+        btn.textContent = "📋 Copy Script";
+        btn.classList.remove("text-emerald-400");
+      }, 1800);
+    }
+
+    function renderScorecard() {
+      const grid = document.getElementById("scorecard-grid");
+      const count = PYTHON_SCORECARD.filter(s => appState.scorecard[s.id]).length;
+
+      document.getElementById("scorecard-big-number").textContent = `${count} / 10`;
+      const pill = document.getElementById("scorecard-status-pill");
+      if (count === 10) {
+        pill.textContent = "Top 1% Python Ready!";
+        pill.className = "px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+      } else if (count >= 7) {
+        pill.textContent = "Senior Tier Ready";
+        pill.className = "px-3 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40";
+      } else {
+        pill.textContent = "Building Mastery";
+        pill.className = "px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30";
+      }
+
+      grid.innerHTML = PYTHON_SCORECARD.map(s => {
+        const active = !!appState.scorecard[s.id];
+        return `
+          <div onclick="toggleScorecard('${s.id}')" class="p-5 rounded-2xl border cursor-pointer transition flex items-start gap-4 ${active ? 'bg-emerald-950/25 border-emerald-500/50' : 'glass-panel border-slate-800 hover:border-slate-700'}">
+            <div class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-sm shrink-0 mt-0.5 ${active ? 'bg-emerald-400 text-black' : 'bg-slate-800 text-slate-400'}">
+              ${active ? '✓' : ''}
+            </div>
+            <div>
+              <h3 class="font-bold text-base ${active ? 'text-emerald-300' : 'text-white'}">${escapeHtml(s.name)}</h3>
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed">${escapeHtml(s.desc)}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderRoadmap() {
+      const container = document.getElementById("weeks-container");
+      container.innerHTML = FOUR_WEEK_PLAN.map(w => {
+        const key = `py_week_${w.week}`;
+        const done = !!appState.checkedItems[key];
+        return `
+          <div class="p-5 rounded-2xl border transition flex flex-col justify-between ${done ? 'bg-emerald-950/20 border-emerald-500/40' : 'bg-slate-900/80 border-slate-800'}">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-amber-400/20 text-py-yellow">WEEK ${w.week}</span>
+                <label class="flex items-center gap-2 text-xs font-semibold text-slate-300 cursor-pointer">
+                  <input type="checkbox" onchange="toggleCheck('${key}')" ${done ? 'checked' : ''} class="w-4 h-4 accent-emerald-400">
+                  <span>Complete</span>
+                </label>
+              </div>
+              <div class="text-xs font-mono text-sky-400 mb-1">${escapeHtml(w.modules)}</div>
+              <h4 class="font-bold text-white text-sm mb-2">${escapeHtml(w.title)}</h4>
+              <p class="text-xs text-slate-300 leading-relaxed mb-3">${escapeHtml(w.goal)}</p>
+            </div>
+            <div class="p-3 rounded-xl bg-black/40 border border-slate-800/90">
+              <div class="text-[11px] uppercase tracking-wider text-py-yellow font-bold">Arena Milestone</div>
+              <div class="text-xs text-slate-200 mt-0.5">${escapeHtml(w.target)}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // =========================================================================
+    // 7. TAB SWITCHING, TIMER & BACKUP
+    // =========================================================================
+    function switchTab(tabId) {
+      ["syllabus", "arena", "vault", "scorecard", "roadmap"].forEach(id => {
+        document.getElementById(`view-${id}`).classList.add("hidden");
+        const btn = document.getElementById(`tab-${id}`);
+        btn.className = "nav-tab px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-2";
+      });
+      document.getElementById(`view-${tabId}`).classList.remove("hidden");
+      const activeBtn = document.getElementById(`tab-${tabId}`);
+      activeBtn.className = "nav-tab px-5 py-3 text-sm font-semibold border-b-2 border-py-yellow text-py-yellow whitespace-nowrap flex items-center gap-2";
+    }
+
+    let timerSeconds = 45 * 60;
+    let timerInterval = null;
+
+    function updateTimerUI() {
+      const m = String(Math.floor(timerSeconds / 60)).padStart(2, "0");
+      const s = String(timerSeconds % 60).padStart(2, "0");
+      document.getElementById("timer-display").textContent = `${m}:${s}`;
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById("timer-btn");
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btn.textContent = "Resume";
+      } else {
+        btn.textContent = "Pause";
+        timerInterval = setInterval(() => {
+          if (timerSeconds > 0) {
+            timerSeconds--;
+            updateTimerUI();
+          } else {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            btn.textContent = "Time Up!";
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
+      timerSeconds = 45 * 60;
+      updateTimerUI();
+      document.getElementById("timer-btn").textContent = "Start 45m Drill";
+    }
+
+    function openDataModal() {
+      document.getElementById("data-modal").classList.remove("hidden");
+    }
+
+    function closeDataModal() {
+      document.getElementById("data-modal").classList.add("hidden");
+    }
+
+    function downloadBackupJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+      const a = document.createElement("a");
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", `rihas-python-top1-backup-${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function resetAllProgress() {
+      if (confirm("Are you sure you want to reset all Python progress and saved scripts?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadState();
+      updateGlobalStats();
+      renderSyllabus();
+      renderArena();
+      renderVault();
+      renderScorecard();
+      renderRoadmap();
+    });
+  </script>
+</body>
+</html>
