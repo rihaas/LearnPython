@@ -389,8 +389,8 @@
         ],
         masteryTest: "Explain Shallow vs Deep Copy, the Mutable Default Argument trap, and Set O(1) hash lookup optimization aloud, and write a 1-line `collections.Counter` + set-difference reconciliation.",
         blueprint: `• 4 Minutes -> 0.08 Seconds Lookup Fix:
-  Never check membership against a large list inside a loop (`O(N * M)` complexity!).
-  Convert the lookup list to a Set first (`O(1)` hash table lookup, reducing total complexity to `O(N + M)`):
+  Never check membership against a large list inside a loop (\`O(N * M)\` complexity!).
+  Convert the lookup list to a Set first (\`O(1)\` hash table lookup, reducing total complexity to \`O(N + M)\`):
   suppression_set = set(suppression_list)
   valid_customers = [x for x in erp_ids if x not in suppression_set]`
       },
@@ -705,14 +705,14 @@ def reconcile_gst(erp_df: pd.DataFrame, gstr2b_df: pd.DataFrame) -> pd.DataFrame
         difficulty: "Hard • Gaps & Islands in Pandas",
         title: "2. 5-Day Consecutive Delivery Partner Streak (Zero Loops)",
         prompt: "Given `orders_df` (`partner_id`, `order_date`, `status`), find all delivery partners who completed at least 12 `'DELIVERED'` orders per day for 5 or more consecutive calendar days. Return `partner_id`, `streak_start`, `streak_end`, and `streak_days`.",
-        schema: `orders_df = pd.DataFrame({
+        schema: String.raw`orders_df = pd.DataFrame({
     'order_id': [...],
     'partner_id': [...],
     'order_date': pd.to_datetime([...]),
     'status': ['DELIVERED', 'CANCELLED', ...]
 })`,
         hint: "Filter `status == 'DELIVERED'`, group by `['partner_id', 'order_date']` and filter `count >= 12`. Sort by `['partner_id', 'order_date']` and subtract `pd.to_timedelta(df.groupby('partner_id').cumcount(), unit='D')` from `order_date` to form an `island_id`!",
-        solution: `import pandas as pd
+        solution: String.raw`import pandas as pd
 
 def find_delivery_streaks(orders_df: pd.DataFrame) -> pd.DataFrame:
     # Step 1: Qualifying partner-days with >= 12 delivered orders
@@ -745,13 +745,13 @@ def find_delivery_streaks(orders_df: pd.DataFrame) -> pd.DataFrame:
         difficulty: "Hard • Shift & Time Deltas",
         title: "3. UPI Failed Payment Recovery Rate Within 10 Minutes",
         prompt: "In `upi_df` (`txn_id`, `user_id`, `merchant_id`, `amount`, `txn_time`, `status`), calculate the percentage of `'FAILED'` transactions where the exact next attempt by the same `user_id`, `merchant_id`, and `amount` was a `'SUCCESS'` within 10 minutes (600 seconds).",
-        schema: `upi_df = pd.DataFrame({
+        schema: String.raw`upi_df = pd.DataFrame({
     'txn_id': [...], 'user_id': [...], 'merchant_id': [...],
     'amount': [...], 'txn_time': pd.to_datetime([...]),
     'status': ['FAILED', 'SUCCESS', ...]
 })`,
         hint: "Sort by `['user_id', 'merchant_id', 'amount', 'txn_time']`, then use `.groupby(['user_id', 'merchant_id', 'amount'])['status'].shift(-1)` and `.shift(-1)` on `txn_time` to inspect the immediate next attempt.",
-        solution: `import pandas as pd
+        solution: String.raw`import pandas as pd
 
 def upi_recovery_rate(upi_df: pd.DataFrame) -> dict:
     df = upi_df.sort_values(['user_id', 'merchant_id', 'amount', 'txn_time']).copy()
@@ -780,12 +780,12 @@ def upi_recovery_rate(upi_df: pd.DataFrame) -> dict:
         difficulty: "Medium • GroupBy Transform & Rank",
         title: "4. Top 2 Salaries per Dept + % of Dept Payroll (No Merge!)",
         prompt: "Given `emp_df` (`emp_id`, `emp_name`, `dept`, `salary`, `is_active`), filter to active employees in departments with at least 3 active staff. Add each employee's `dept_payroll_share_pct` and return only the employees earning the Top 2 distinct salaries per department without using `pd.merge()`.",
-        schema: `emp_df = pd.DataFrame({
+        schema: String.raw`emp_df = pd.DataFrame({
     'emp_id': [...], 'emp_name': [...], 'dept': [...],
     'salary': [...], 'is_active': [True, False, ...]
 })`,
         hint: "Use `df.groupby('dept')['salary'].transform('count')` for headcount, `.transform('sum')` for department payroll, and `.rank(method='dense', ascending=False)` for salary rank.",
-        solution: `import pandas as pd
+        solution: String.raw`import pandas as pd
 
 def top_2_dept_earners(emp_df: pd.DataFrame) -> pd.DataFrame:
     active = emp_df[emp_df['is_active'] == True].copy()
@@ -805,13 +805,13 @@ def top_2_dept_earners(emp_df: pd.DataFrame) -> pd.DataFrame:
         difficulty: "Medium • Regex & String Cleaning",
         title: "5. Cleaning Messy Indian Currency Strings & Extracting PAN from GSTIN",
         prompt: "A raw vendor dataset `vendor_df` has `gstin` (some invalid/lowercase) and `invoice_val` containing messy strings like `'₹ 1,25,000.50/-'`, `'Rs. 45,000'`, `'(8,500)'` (accounting negative), and `'NIL'`. Validate the 15-char GSTIN via Regex, extract the 10-char `pan_no` (chars 3–12), and parse `invoice_val` into a clean `float64` column `clean_amount`.",
-        schema: `vendor_df = pd.DataFrame({
+        schema: String.raw`vendor_df = pd.DataFrame({
     'vendor_name': [...],
     'gstin': ['29ABCDE1234F1Z5', 'invalid_gst', ...],
     'invoice_val': ['₹ 1,25,000.50/-', '(8,500)', 'NIL', ...]
 })`,
         hint: "For accounting negatives `'(8,500)'`, replace `'('` with `'-'` and remove all characters except digits, `'.'`, and `'-'` using `.str.replace(r'[^0-9.-]', '', regex=True)`, then call `pd.to_numeric(..., errors='coerce').fillna(0.0)`.",
-        solution: `import pandas as pd
+        solution: String.raw`import pandas as pd
 
 GSTIN_REGEX = r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$'
 
@@ -841,13 +841,13 @@ def clean_indian_vendor_data(vendor_df: pd.DataFrame) -> pd.DataFrame:
         difficulty: "Hard • Cohort Retention Matrix",
         title: "6. Customer Cohort Retention Matrix (M0 to M3 %) in Pandas",
         prompt: "Given `orders_df` (`customer_id`, `order_date`), group customers into monthly cohorts based on their first purchase month (`cohort_month`). Output a retention percentage matrix with `cohort_month` on the index and month offset (`0, 1, 2, 3`) on the columns.",
-        schema: `orders_df = pd.DataFrame({
+        schema: String.raw`orders_df = pd.DataFrame({
     'order_id': [...],
     'customer_id': [...],
     'order_date': pd.to_datetime([...])
 })`,
         hint: "Convert `order_date` to `.dt.to_period('M')`, compute `cohort_month = df.groupby('customer_id')['order_month'].transform('min')`, compute month difference `(order_month.dt.year - cohort_month.dt.year)*12 + (order_month.dt.month - cohort_month.dt.month)`, and pivot!",
-        solution: `import pandas as pd
+        solution: String.raw`import pandas as pd
 
 def build_cohort_matrix(orders_df: pd.DataFrame) -> pd.DataFrame:
     df = orders_df.copy()
@@ -878,12 +878,12 @@ def build_cohort_matrix(orders_df: pd.DataFrame) -> pd.DataFrame:
         difficulty: "Medium • Indian FY (Apr-Mar)",
         title: "7. Indian Financial Year (Apr–Mar) Quarterly YoY & QoQ Summary",
         prompt: "Given daily `sales_df` (`invoice_date`, `net_sales`), assign every row to its Indian Financial Year (`FY2025-26`) and Indian Fiscal Quarter (`FQ1` = Apr–Jun ... `FQ4` = Jan–Mar). Aggregate total sales by `(indian_fy, indian_fq)` and compute `qoq_growth_pct` and `yoy_same_qtr_growth_pct`.",
-        schema: `sales_df = pd.DataFrame({
+        schema: String.raw`sales_df = pd.DataFrame({
     'invoice_date': pd.to_datetime([...]),
     'net_sales': [...]
 })`,
         hint: "Shift `invoice_date` back by 3 months (`df['invoice_date'] - pd.DateOffset(months=3)`). Group by `fy_start` and `fq_num`, sort chronologically, and use `.pct_change(1)` for QoQ and `.pct_change(4)` for YoY!",
-        solution: `import pandas as pd
+        solution: String.raw`import pandas as pd
 
 def indian_fy_summary(sales_df: pd.DataFrame) -> pd.DataFrame:
     df = sales_df.copy()
@@ -910,13 +910,13 @@ def indian_fy_summary(sales_df: pd.DataFrame) -> pd.DataFrame:
         difficulty: "Hard • 30-Min Sessionization",
         title: "8. Vectorized 30-Minute User Clickstream Sessionization",
         prompt: "Given `events_df` (`user_id`, `event_time`, `event_name`), group consecutive events per user into sessions. A new session starts whenever the user has been inactive for > 30 minutes since their previous event. Compute `session_id`, `session_start`, `session_end`, `duration_sec`, and `event_count`.",
-        schema: `events_df = pd.DataFrame({
+        schema: String.raw`events_df = pd.DataFrame({
     'user_id': [...],
     'event_time': pd.to_datetime([...]),
     'event_name': [...]
 })`,
         hint: "Sort by `['user_id', 'event_time']`. Compute `gap_min = df.groupby('user_id')['event_time'].diff().dt.total_seconds() / 60.0`. Flag `is_new = (gap_min.isna()) | (gap_min > 30)`, and run `df.groupby('user_id')['is_new'].cumsum()`.",
-        solution: `import pandas as pd
+        solution: String.raw`import pandas as pd
 
 def sessionize_clickstream(events_df: pd.DataFrame) -> pd.DataFrame:
     df = events_df.sort_values(['user_id', 'event_time']).copy()
@@ -943,12 +943,12 @@ def sessionize_clickstream(events_df: pd.DataFrame) -> pd.DataFrame:
         difficulty: "Medium-Hard • Pareto 80/20",
         title: "9. Pareto 80/20 SKU Analysis + Group-Median Missing Imputation",
         prompt: "In `sku_df` (`sku_id`, `category`, `units_sold`, `unit_price`), some `unit_price` values are `NaN`. First, impute missing `unit_price` using the median price of that `category`. Then compute `revenue = units_sold * unit_price` and isolate the top SKUs that cumulatively drive up to 80% of total revenue.",
-        schema: `sku_df = pd.DataFrame({
+        schema: String.raw`sku_df = pd.DataFrame({
     'sku_id': [...], 'category': [...],
     'units_sold': [...], 'unit_price': [199.0, np.nan, ...]
 })`,
         hint: "Impute with `df['unit_price'].fillna(df.groupby('category')['unit_price'].transform('median'))`. Aggregate revenue per `sku_id`, sort descending, and compute `.cumsum() / total_rev`.",
-        solution: `import pandas as pd
+        solution: String.raw`import pandas as pd
 
 def pareto_top_skus(sku_df: pd.DataFrame) -> pd.DataFrame:
     df = sku_df.copy()
@@ -979,10 +979,10 @@ def pareto_top_skus(sku_df: pd.DataFrame) -> pd.DataFrame:
         difficulty: "Hard • Interval / As-Of Join",
         title: "10. Point-in-Time Historical Department Lookup (`merge_asof`)",
         prompt: "Employees change departments over time (`dept_history_df`: `emp_id`, `dept_name`, `effective_date`). You have a table of bonus payouts (`bonus_df`: `emp_id`, `payout_date`, `bonus_amt`). Use Pandas' ultra-fast `pd.merge_asof()` to attribute every bonus to the exact department the employee belonged to on `payout_date`.",
-        schema: `dept_history_df = pd.DataFrame({'emp_id': [...], 'dept_name': [...], 'effective_date': pd.to_datetime([...])})
+        schema: String.raw`dept_history_df = pd.DataFrame({'emp_id': [...], 'dept_name': [...], 'effective_date': pd.to_datetime([...])})
 bonus_df        = pd.DataFrame({'emp_id': [...], 'payout_date': pd.to_datetime([...]), 'bonus_amt': [...]})`,
         hint: "`pd.merge_asof()` requires both DataFrames to be sorted by the date key (`payout_date` and `effective_date`). Pass `by='emp_id'`, `left_on='payout_date'`, `right_on='effective_date'`, and `direction='backward'`!",
-        solution: `import pandas as pd
+        solution: String.raw`import pandas as pd
 
 def attribute_historical_dept(bonus_df: pd.DataFrame, dept_history_df: pd.DataFrame) -> pd.DataFrame:
     # merge_asof requires both DataFrames sorted by the timestamp key!
@@ -1005,12 +1005,12 @@ def attribute_historical_dept(bonus_df: pd.DataFrame, dept_history_df: pd.DataFr
         difficulty: "Medium • Explode & Normalize",
         title: "11. Flattening Nested E-Commerce Cart JSON Payloads",
         prompt: "An order webhook returns nested JSON records where each order contains a list of `items` (`[{'sku': 'A1', 'qty': 2, 'price': 500}, ...]`). Flatten the payload into a clean item-level DataFrame containing `order_id`, `customer_city`, `sku`, `qty`, `price`, and `line_total` without writing `for` loops.",
-        schema: `payload = [
+        schema: String.raw`payload = [
     {'order_id': 101, 'customer': {'city': 'Kochi'}, 'items': [{'sku': 'S1', 'qty': 2, 'price': 400}, {'sku': 'S2', 'qty': 1, 'price': 900}]},
     ...
 ]`,
         hint: "Use `pd.json_normalize(payload, record_path='items', meta=['order_id', ['customer', 'city']])` to flatten nested lists and parent metadata in a single C-optimized call!",
-        solution: `import pandas as pd
+        solution: String.raw`import pandas as pd
 
 def flatten_order_payloads(payload: list) -> pd.DataFrame:
     df = pd.json_normalize(
@@ -1028,12 +1028,12 @@ def flatten_order_payloads(payload: list) -> pd.DataFrame:
         difficulty: "Top 1% • Vectorization Refactor",
         title: "12. Refactoring a Slow `.iterrows()` Script to Run 300x Faster",
         prompt: "An analyst wrote the slow code below on a 2-million-row DataFrame (takes 95 seconds). Rewrite it into a 100% vectorized Top 1% Pandas solution that runs in <0.2 seconds:\n\n`results = []\nfor idx, row in df.iterrows():\n    if row['category'] == 'Electronics' and row['return_flag'] == False:\n        commission = row['amount'] * 0.08\n    elif row['category'] == 'Apparel' and row['return_flag'] == False:\n        commission = row['amount'] * 0.12\n    else:\n        commission = 0.0\n    results.append(commission)\ndf['commission'] = results`",
-        schema: `df = pd.DataFrame({
+        schema: String.raw`df = pd.DataFrame({
     'order_id': [...], 'category': ['Electronics', 'Apparel', 'Groceries', ...],
     'amount': [...], 'return_flag': [False, True, ...]
 })`,
         hint: "Use `np.select()` with bitwise `&` and `~df['return_flag']` (or map a commission rate dictionary `{'Electronics': 0.08, 'Apparel': 0.12}` and multiply by `~df['return_flag']`).",
-        solution: `import numpy as np
+        solution: String.raw`import numpy as np
 import pandas as pd
 
 def compute_commission_vectorized(df: pd.DataFrame) -> pd.DataFrame:
@@ -1243,7 +1243,16 @@ def export_regional_excel_pack(df: pd.DataFrame, output_path: str = "FY26_Region
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
-          appState = { ...appState, ...JSON.parse(raw) };
+          const saved = JSON.parse(raw);
+          appState = { ...appState, ...saved };
+          // Protect against incomplete or stale browser saves.
+          for (const key of ["checkedItems", "arenaSolved", "arenaCode", "scorecard", "moduleNotes"]) {
+            if (!appState[key] || typeof appState[key] !== "object" || Array.isArray(appState[key])) appState[key] = {};
+          }
+          if (appState.activePhase === undefined) appState.activePhase = "all";
+          if (!appState.activeProblemId || !Array.isArray(ARENA_PROBLEMS) || !ARENA_PROBLEMS.some(p => p.id === appState.activeProblemId)) {
+            appState.activeProblemId = ARENA_PROBLEMS[0]?.id || "";
+          }
         }
       } catch (e) {
         console.warn("localStorage read error", e);
@@ -1655,13 +1664,30 @@ def export_regional_excel_pack(df: pd.DataFrame, output_path: str = "FY26_Region
     // =========================================================================
     function switchTab(tabId) {
       ["syllabus", "arena", "vault", "scorecard", "roadmap"].forEach(id => {
-        document.getElementById(`view-${id}`).classList.add("hidden");
+        const view = document.getElementById(`view-${id}`);
         const btn = document.getElementById(`tab-${id}`);
-        btn.className = "nav-tab px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-2";
+        if (view) view.classList.add("hidden");
+        if (btn) btn.className = "nav-tab px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-2";
       });
-      document.getElementById(`view-${tabId}`).classList.remove("hidden");
+      const view = document.getElementById(`view-${tabId}`);
       const activeBtn = document.getElementById(`tab-${tabId}`);
-      activeBtn.className = "nav-tab px-5 py-3 text-sm font-semibold border-b-2 border-py-yellow text-py-yellow whitespace-nowrap flex items-center gap-2";
+      if (view) view.classList.remove("hidden");
+      if (activeBtn) activeBtn.className = "nav-tab px-5 py-3 text-sm font-semibold border-b-2 border-py-yellow text-py-yellow whitespace-nowrap flex items-center gap-2";
+      const renderers = { syllabus: renderSyllabus, arena: renderArena, vault: renderVault, scorecard: renderScorecard, roadmap: renderRoadmap };
+      try {
+        if (renderers[tabId]) renderers[tabId]();
+      } catch (err) {
+        console.error(`Failed to render ${tabId}:`, err);
+        if (view) {
+          let errorBox = view.querySelector(".render-error");
+          if (!errorBox) {
+            errorBox = document.createElement("div");
+            errorBox.className = "render-error glass-panel rounded-xl border border-red-500/40 p-4 text-sm text-red-300";
+            view.prepend(errorBox);
+          }
+          errorBox.textContent = `This section could not render: ${err?.message || err}`;
+        }
+      }
     }
 
     let timerSeconds = 45 * 60;
@@ -1737,12 +1763,31 @@ def export_regional_excel_pack(df: pd.DataFrame, output_path: str = "FY26_Region
 
     window.addEventListener("DOMContentLoaded", () => {
       loadState();
-      updateGlobalStats();
-      renderSyllabus();
-      renderArena();
-      renderVault();
-      renderScorecard();
-      renderRoadmap();
+      const startupTasks = [
+        ["stats", updateGlobalStats],
+        ["syllabus", renderSyllabus],
+        ["arena", renderArena],
+        ["vault", renderVault],
+        ["scorecard", renderScorecard],
+        ["roadmap", renderRoadmap]
+      ];
+      for (const [name, task] of startupTasks) {
+        try { task(); }
+        catch (err) {
+          console.error(`Startup render failed (${name}):`, err);
+          const targetId = name === "stats" ? "view-syllabus" : `view-${name}`;
+          const target = document.getElementById(targetId);
+          if (target) {
+            let errorBox = target.querySelector(".render-error");
+            if (!errorBox) {
+              errorBox = document.createElement("div");
+              errorBox.className = "render-error glass-panel rounded-xl border border-red-500/40 p-4 text-sm text-red-300";
+              target.prepend(errorBox);
+            }
+            errorBox.textContent = `${name} could not load: ${err?.message || err}`;
+          }
+        }
+      }
     });
   </script>
 </body>
